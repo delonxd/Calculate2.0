@@ -19,7 +19,7 @@ if __name__ == '__main__':
     }
 
     param.z2 = MultiFreqImpType()
-    param.z2.rlc_s = {
+    param.z2.rlc_p = {
         1700: (3.0451e3, 551.191e-3, None),
         2000: (3.1163e3, 580.653e-3, None),
         2300: (3.1775e3, 605.011e-3, None),
