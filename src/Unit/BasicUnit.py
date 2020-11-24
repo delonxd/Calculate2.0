@@ -90,21 +90,3 @@ class UnitGroup:
     def create_module(self):
         for unit in self.unit_set:
             unit.create_module()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

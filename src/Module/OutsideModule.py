@@ -69,7 +69,7 @@ class ZPW2000A_TCSR_QJ_Normal(BasicModule):
     """
 
     def __init__(self, parent, **kwargs):
-        from TrackCircuitElement.TcsrUnit import Snd_Mde, Rcv_Mde
+        from src.Unit.TcsrUnit import Snd_Mde, Rcv_Mde
         bas_name = 'ZPW2000A区间模块'
         super().__init__(parent, bas_name)
         # self.parameter = None

@@ -66,7 +66,7 @@ class SectionGroup:
         self.sec_list.append(Section(parent=self, bas_name=bas_name))
 
     def link_section(self):
-        from TrackCircuitElement.Joint import Electric_2000A_JTyp
+        from src.TrackCircuitConcept.Joint import Electric_2000A_JTyp
         nbr = len(self.sec_list)
         for index in range(nbr - 1):
             sec1 = self.sec_list[index]
@@ -145,10 +145,10 @@ class SectionGroup:
             for index, section in enumerate(self.sec_list):
                 section.load_kwargs(tb_mode=tb_mode)
 
-        if 'section_mde' in kwargs:
-            sec_params = kwargs['sec_params']
-            for section in self.sec_list:
-                pass
+        # if 'section_mde' in kwargs:
+        #     sec_params = kwargs['sec_params']
+        #     for section in self.sec_list:
+        #         pass
 
     def init_unit(self):
         for sec in self.sec_list:

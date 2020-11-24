@@ -48,7 +48,6 @@ if __name__ == '__main__':
         2600: 8.8688,
     }
 
-
     # with open('../parameter_pkl/Parameter_TAD.pkl', 'wb') as pk_f:
     #     pickle.dump(param1, pk_f)
     pass
