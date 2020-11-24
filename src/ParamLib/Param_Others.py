@@ -1,5 +1,6 @@
 from src.Parameter import Parameter
 from src.ParamType import MultiFreqImpType
+from src.Parameter import CableParam
 # import pickle
 
 
@@ -50,6 +51,12 @@ if __name__ == '__main__':
         2300: (23e3, 3.363013e-3, None),
         2600: (23e3, 3.366739e-3, None),
     }
+
+    param = CableParam('Param_Cable')
+    param_dict[param.name] = param
+    param.R = 43
+    param.L = 825e-6
+    param.C = 28e-9
 
     Parameter.param_dict_to_pkl(param_dict)
     pass
