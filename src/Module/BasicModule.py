@@ -13,7 +13,7 @@ class BasicModule:
 
         # parameters
         self.bas_name = bas_name
-        self.param = None
+        self._param = list()
 
         # generated
         self.name = str()
@@ -22,11 +22,17 @@ class BasicModule:
         self.edges = list()
         # self.edges_all = list()
 
+    @property
+    def param(self):
+        return self._param
+
     def load_kw(self, **kwargs):
         """
 
         """
-        pass
+
+        if 'param' in kwargs:
+            self._param = kwargs['param']
 
     def get_edges(self):
         edges = self.edges.copy()
@@ -108,3 +114,6 @@ class BasicModule:
             edge.config_name()
         for module in self.modules:
             module.config_name()
+
+    def load_param(self, *args, **kwargs):
+        pass

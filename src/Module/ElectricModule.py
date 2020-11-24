@@ -12,9 +12,9 @@ class ImpedanceModule(BasicModule):
 
     def __init__(self, parent, bas_name, **kwargs):
         super().__init__(parent, bas_name)
-        self._z = None
-        self.r1 = ImpedanceEdge(self, 'Edge')
+        self._param = [None]
 
+        self.r1 = ImpedanceEdge(self, 'Edge')
         self.add_element(self.r1)
 
         self.create_circuit()
@@ -24,11 +24,11 @@ class ImpedanceModule(BasicModule):
 
     def load_kw(self, **kwargs):
         if 'z' in kwargs:
-            self._z = kwargs['z']
+            self._param[0] = kwargs['z']
 
     @property
     def z(self):
-        return self._z
+        return self.param[0]
 
     def create_circuit(self):
         pass
@@ -36,8 +36,8 @@ class ImpedanceModule(BasicModule):
     def create_port(self):
         self.config_port(Port(self.r1, True), Port(self.r1, False))
 
-    def config_edge_param(self, freq):
-        self.r1.config_param(self.z[freq])
+    def config_param(self, freq):
+        self.r1.config_param(self.param[0].z(freq))
 
 
 class CableModule(BasicModule):
@@ -47,10 +47,7 @@ class CableModule(BasicModule):
 
     def __init__(self, parent, bas_name, **kwargs):
         super().__init__(parent, bas_name)
-        self._R = None
-        self._L = None
-        self._C = None
-        self._length = None
+        self._param = [None] * 4
 
         self.r1 = ImpedanceEdge(self, 'R1')
         self.r2 = ImpedanceEdge(self, 'R2')
@@ -65,32 +62,32 @@ class CableModule(BasicModule):
 
     def load_kw(self, **kwargs):
         if 'R' in kwargs:
-            self._R = kwargs['R']
+            self._param[0] = kwargs['R']
 
         if 'L' in kwargs:
-            self._L = kwargs['L']
+            self._param[1] = kwargs['L']
 
         if 'C' in kwargs:
-            self._C = kwargs['C']
+            self._param[2] = kwargs['C']
 
         if 'length' in kwargs:
-            self._length = kwargs['length']
-
-    @property
-    def length(self):
-        return self._length
+            self._param[3] = kwargs['length']
 
     @property
     def R(self):
-        return self._R
+        return self.param[0]
 
     @property
     def L(self):
-        return self._L
+        return self.param[1]
 
     @property
     def C(self):
-        return self._C
+        return self.param[2]
+
+    @property
+    def length(self):
+        return self.param[3]
 
     def create_circuit(self):
         self.r1.start.link_node(self.rp1.start)
@@ -102,7 +99,7 @@ class CableModule(BasicModule):
         self.config_port(Port(self.r1, True), Port(self.r2, True),
                          Port(self.r1, False), Port(self.r2, False))
 
-    def config_edge_para(self, freq):
+    def config_param(self, freq):
         length = float(self.length)
         w = 2 * np.pi * freq
         z0 = float(self.R) + 1j * w * float(self.L)
@@ -126,7 +123,7 @@ class XfmrModule(BasicModule):
 
     def __init__(self, parent, bas_name, **kwargs):
         super().__init__(parent, bas_name)
-        self._n = None
+        self._param = [None]
         self.w1 = WindingEdge(self, '1原边')
         self.w2 = WindingEdge(self, '2副边')
         self.add_element(self.w1, self.w2)
@@ -138,11 +135,11 @@ class XfmrModule(BasicModule):
 
     def load_kw(self, **kwargs):
         if 'n' in kwargs:
-            self._n = kwargs['n']
+            self._param[0] = kwargs['n']
 
     @property
     def n(self):
-        return self._n
+        return self.param[0]
 
     def create_circuit(self):
         pass
@@ -151,7 +148,7 @@ class XfmrModule(BasicModule):
         self.config_port(Port(self.w1, True), Port(self.w1, False),
                          Port(self.w2, True), Port(self.w2, False))
 
-    def config_edge_para(self, freq):
+    def config_param(self, freq):
         self.w1.config_param(self.w2, self.n)
         self.w2.config_param(self.w1, 1 / self.n)
         # self.w1.source = True
@@ -165,9 +162,11 @@ class PiCircuitModule(BasicModule):
 
     def __init__(self, parent, bas_name, **kwargs):
         super().__init__(parent, bas_name)
-        self.r1 = ImpedanceModule(self, 'R1')
-        self.r2 = ImpedanceModule(self, 'R2')
-        self.r3 = ImpedanceModule(self, 'R3')
+        self._param = [None] * 3
+
+        self.r1 = ImpedanceEdge(self, 'R1')
+        self.r2 = ImpedanceEdge(self, 'R2')
+        self.r3 = ImpedanceEdge(self, 'R3')
         self.add_element(self.r1, self.r2, self.r3)
 
         self.create_circuit()
@@ -177,34 +176,46 @@ class PiCircuitModule(BasicModule):
 
     def load_kw(self, **kwargs):
         if 'z1' in kwargs:
-            self.r1.load_kw(z=kwargs['z1'])
+            self._param[0] = kwargs['z1']
 
         if 'z2' in kwargs:
-            self.r2.load_kw(z=kwargs['z2'])
+            self._param[1] = kwargs['z2']
 
         if 'z3' in kwargs:
-            self.r3.load_kw(z=kwargs['z3'])
+            self._param[2] = kwargs['z3']
 
     @property
     def z1(self):
-        return self.r1.z
+        return self.param[0]
 
     @property
     def z2(self):
-        return self.r2.z
+        return self.param[1]
 
     @property
     def z3(self):
-        return self.r3.z
+        return self.param[2]
 
     def create_circuit(self):
-        self.r1.ports[0].link_node(self.r2.ports[0])
-        self.r2.ports[1].link_node(self.r3.ports[0])
-        self.r1.ports[1].link_node(self.r3.ports[1])
+        # self.r1.ports[0].link_node(self.r2.ports[0])
+        # self.r2.ports[1].link_node(self.r3.ports[0])
+        # self.r1.ports[1].link_node(self.r3.ports[1])
+
+        self.r1.start.link_node(self.r2.start)
+        self.r2.end.link_node(self.r3.start)
+        self.r1.end.link_node(self.r3.end)
 
     def create_port(self):
-        self.config_port(self.r1.ports[0], self.r2.ports[1],
-                         self.r3.ports[0], self.r3.ports[1])
+        # self.config_port(self.r1.ports[0], self.r2.ports[1],
+        #                  self.r3.ports[0], self.r3.ports[1])
+
+        self.config_port(Port(self.r1, True), Port(self.r1, False),
+                         Port(self.r3, True), Port(self.r3, False))
+
+    def config_param(self, freq):
+        self.r1.config_param(self.z1.z(freq))
+        self.r2.config_param(self.z2.z(freq))
+        self.r3.config_param(self.z3.z(freq))
 
 
 class TCircuitModule(BasicModule):
@@ -214,9 +225,11 @@ class TCircuitModule(BasicModule):
 
     def __init__(self, parent, bas_name, **kwargs):
         super().__init__(parent, bas_name)
-        self.r1 = ImpedanceModule(self, 'R1')
-        self.r2 = ImpedanceModule(self, 'R2')
-        self.r3 = ImpedanceModule(self, 'R3')
+        self._param = [None] * 3
+
+        self.r1 = ImpedanceEdge(self, 'R1')
+        self.r2 = ImpedanceEdge(self, 'R2')
+        self.r3 = ImpedanceEdge(self, 'R3')
         self.add_element(self.r1, self.r2, self.r3)
 
         self.create_circuit()
@@ -226,30 +239,43 @@ class TCircuitModule(BasicModule):
 
     def load_kw(self, **kwargs):
         if 'z1' in kwargs:
-            self.r1.load_kw(z=kwargs['z1'])
+            self._param[0] = kwargs['z1']
 
         if 'z2' in kwargs:
-            self.r2.load_kw(z=kwargs['z2'])
+            self._param[1] = kwargs['z2']
 
         if 'z3' in kwargs:
-            self.r3.load_kw(z=kwargs['z3'])
+            self._param[2] = kwargs['z3']
 
     @property
     def z1(self):
-        return self.r1.z
+        return self.param[0]
 
     @property
     def z2(self):
-        return self.r2.z
+        return self.param[1]
 
     @property
     def z3(self):
-        return self.r3.z
+        return self.param[2]
+
+    # def create_circuit(self):
+    #     self.r1.ports[1].link_node(self.r3.ports[0])
+    #     self.r1.ports[1].link_node(self.r2.ports[0])
+    #
+    # def create_port(self):
+    #     self.config_port(self.r1.ports[0], self.r2.ports[1],
+    #                      self.r3.ports[1], self.r2.ports[1])
 
     def create_circuit(self):
-        self.r1.ports[1].link_node(self.r3.ports[0])
-        self.r1.ports[1].link_node(self.r2.ports[0])
+        self.r1.end.link_node(self.r2.start)
+        self.r1.end.link_node(self.r3.start)
 
     def create_port(self):
-        self.config_port(self.r1.ports[0], self.r2.ports[1],
-                         self.r3.ports[1], self.r2.ports[1])
+        self.config_port(Port(self.r1, True), Port(self.r2, False),
+                         Port(self.r3, False), Port(self.r2, False))
+
+    def config_param(self, freq):
+        self.r1.config_param(self.z1.z(freq))
+        self.r2.config_param(self.z2.z(freq))
+        self.r3.config_param(self.z3.z(freq))

@@ -61,6 +61,9 @@ class BasicUnit:
         if 'bas_name' in kwargs:
             self._bas_name = kwargs['bas_name']
 
+    def load_param(self):
+        pass
+
 
 class UnitGroup:
     """

@@ -29,6 +29,9 @@ class TADXfmrParam(Parameter):
         TAD变压器参数类
     """
 
+    from src.Module.TcsrModule import TcsrTADXfmr
+    param_class = TcsrTADXfmr
+
     def __init__(self, name):
         super().__init__(name)
         self.z1 = None
@@ -37,10 +40,10 @@ class TADXfmrParam(Parameter):
         self.z3 = None
         self.zc = None
 
-    @property
-    def param_class(self):
-        from src.Module.TcsrModule import TcsrTADXfmr
-        return TcsrTADXfmr
+    # @property
+    # def param_class(self):
+    #     from src.Module.TcsrModule import TcsrTADXfmr
+    #     return TcsrTADXfmr
 
 
 class FLXfmrParam(Parameter):
@@ -53,11 +56,6 @@ class FLXfmrParam(Parameter):
         self.z1 = None
         self.z2 = None
         self.n = None
-
-    @property
-    def param_class(self):
-        from src.Module.TcsrModule import TcsrFLXfmr
-        return TcsrFLXfmr
 
 
 class FourFreqParam(Parameter):
@@ -73,10 +71,6 @@ class FourFreqParam(Parameter):
             2300: None,
             2600: None,
         }
-
-    @property
-    def param_class(self):
-        return
 
     def __setitem__(self, key, value):
         return self.dict.__setitem__(key, value)
@@ -116,12 +110,20 @@ class ZPW2000AZPower(Parameter):
             9: None,
         }
 
-    @property
-    def param_class(self):
-        return
-
     def __setitem__(self, key, value):
         return self.dict.__setitem__(key, value)
 
     def __getitem__(self, item):
         return self.dict.__getitem__(item)
+
+
+class CableParam(Parameter):
+    """
+        TAD变压器参数类
+    """
+
+    def __init__(self, name):
+        super().__init__(name)
+        self.R = None
+        self.L = None
+        self.C = None
