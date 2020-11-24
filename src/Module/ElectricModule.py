@@ -1,6 +1,7 @@
-from TrackCircuitElement.BasicModule import BasicModule
-from TrackCircuitElement.Port import Port
-from TrackCircuitElement.Edge import *
+from src.Module.BasicModule import BasicModule
+from src.CircuitConcept.Port import Port
+from src.CircuitConcept.Edge import ImpedanceEdge
+from src.CircuitConcept.Edge import WindingEdge
 import numpy as np
 
 

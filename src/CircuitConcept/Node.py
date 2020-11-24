@@ -1,4 +1,4 @@
-from TrackCircuitElement.Variable import Variable
+from src.CircuitConcept.Variable import Variable
 
 
 class Node:

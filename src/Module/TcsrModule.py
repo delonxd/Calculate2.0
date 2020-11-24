@@ -1,10 +1,10 @@
-from TrackCircuitElement.BasicModule import BasicModule
-from TrackCircuitElement.ElectricModule import ImpedanceModule
-from TrackCircuitElement.ElectricModule import XfmrModule
-from TrackCircuitElement.ElectricModule import TCircuitModule
-from TrackCircuitElement.Edge import VolSrcEdge
-from TrackCircuitElement.Edge import WireEdge
-from TrackCircuitElement.Port import Port
+from src.Module.BasicModule import BasicModule
+from src.Module.ElectricModule import ImpedanceModule
+from src.Module.ElectricModule import XfmrModule
+from src.Module.ElectricModule import TCircuitModule
+from src.CircuitConcept.Edge import VolSrcEdge
+from src.CircuitConcept.Edge import WireEdge
+from src.CircuitConcept.Port import Port
 
 
 class TcsrXfmr(BasicModule):

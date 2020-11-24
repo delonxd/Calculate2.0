@@ -1,12 +1,12 @@
-from TrackCircuitElement.ElectricModule import ImpedanceModule
-from TrackCircuitElement.BasicModule import BasicModule
-from TrackCircuitElement.TcsrModule import TcsrPower
-from TrackCircuitElement.TcsrModule import TcsrReceiver
-from TrackCircuitElement.TcsrModule import TcsrFLXfmr
-from TrackCircuitElement.ElectricModule import CableModule
-from TrackCircuitElement.TcsrModule import TcsrTADXfmr
-from TrackCircuitElement.TcsrModule import TcsrBA
-from TrackCircuitElement.TcsrModule import TcsrCA
+from src.Module.ElectricModule import ImpedanceModule
+from src.Module.BasicModule import BasicModule
+from src.Module.TcsrModule import TcsrPower
+from src.Module.TcsrModule import TcsrReceiver
+from src.Module.TcsrModule import TcsrFLXfmr
+from src.Module.ElectricModule import CableModule
+from src.Module.TcsrModule import TcsrTADXfmr
+from src.Module.TcsrModule import TcsrBA
+from src.Module.TcsrModule import TcsrCA
 
 
 class ZPW2000A_SVA(ImpedanceModule):

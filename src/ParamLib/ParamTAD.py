@@ -1,6 +1,6 @@
-from TrackCircuitElement.Parameter import TADXfmrParam
-from TrackCircuitElement.ParamType import MultiFreqImpType
-import pickle
+from src.Parameter import TADXfmrParam
+from src.ParamType import MultiFreqImpType
+# import pickle
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
-from TrackCircuitElement.Variable import Variable
-from TrackCircuitElement.Node import Node
+from src.CircuitConcept.Variable import Variable
+from src.CircuitConcept.Node import Node
 
 
 class Edge:

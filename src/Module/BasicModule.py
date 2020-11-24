@@ -1,5 +1,5 @@
-from TrackCircuitElement.Port import Port
-from TrackCircuitElement.Edge import Edge
+from src.CircuitConcept.Port import Port
+from src.CircuitConcept.Edge import Edge
 
 
 class BasicModule:

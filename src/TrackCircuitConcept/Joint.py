@@ -1,5 +1,5 @@
-from TrackCircuitElement.OutsideUnit import SVA
-from TrackCircuitElement.OutsideUnit import BreakPoint
+from src.Unit.OutsideUnit import SVA
+from src.Unit.OutsideUnit import BreakPoint
 
 
 class Joint:
@@ -32,7 +32,7 @@ class Joint:
 
     @property
     def bas_name(self):
-        from TrackCircuitElement.Section import Section
+        from src.TrackCircuitConcept.Section import Section
 
         if isinstance(self.parent, Section):
             if self == self.parent.l_joint:
@@ -55,7 +55,7 @@ class Joint:
 
     @property
     def rlt_pos(self):
-        from TrackCircuitElement.Section import Section
+        from src.TrackCircuitConcept.Section import Section
 
         if isinstance(self.parent, Section):
             if self == self.parent.l_joint:
@@ -77,7 +77,7 @@ class Joint:
 
     @property
     def j_type(self):
-        from TrackCircuitElement.Section import ZPW2000A_STyp
+        from src.TrackCircuitConcept.Section import ZPW2000A_STyp
         if self.length:
             if self.parent.sec_type == ZPW2000A_STyp:
                 return Electric_2000A_JTyp

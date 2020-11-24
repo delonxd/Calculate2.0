@@ -1,6 +1,6 @@
-from TrackCircuitElement.Section import Section
-from TrackCircuitElement.Freq import Freq
-from TrackCircuitElement.Unit import UnitGroup
+from src.TrackCircuitConcept.Section import Section
+from src.Freq import Freq
+from src.Unit.BasicUnit import UnitGroup
 
 
 class SectionGroup:

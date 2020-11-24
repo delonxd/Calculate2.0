@@ -1,10 +1,10 @@
-from TrackCircuitElement.Unit import Unit
-from TrackCircuitElement.OutsideModule import ZPW2000A_SVA
-from TrackCircuitElement.OutsideModule import ZPW2000A_CapC
-from TrackCircuitElement.OutsideModule import ZPW2000A_TB
+from src.Unit.BasicUnit import BasicUnit
+from src.Module.OutsideModule import ZPW2000A_SVA
+from src.Module.OutsideModule import ZPW2000A_CapC
+from src.Module.OutsideModule import ZPW2000A_TB
 
 
-class SVA(Unit):
+class SVA(BasicUnit):
     """
         室外空心线圈
     """
@@ -15,7 +15,7 @@ class SVA(Unit):
         self._md_type = ZPW2000A_SVA
 
 
-class CapC(Unit):
+class CapC(BasicUnit):
     """
         室外补偿电容
     """
@@ -26,7 +26,7 @@ class CapC(Unit):
         self._md_type = ZPW2000A_CapC
 
 
-class TB(Unit):
+class TB(BasicUnit):
     """
         室外TB
     """
@@ -41,7 +41,7 @@ class TB(Unit):
         return
 
 
-class UPowerOut(Unit):
+class UPowerOut(BasicUnit):
     """
         室外电压源
     """
@@ -51,7 +51,7 @@ class UPowerOut(Unit):
         self._bas_name = bas_name
 
 
-class ROutside(Unit):
+class ROutside(BasicUnit):
     """
         室外电阻
     """
@@ -61,7 +61,7 @@ class ROutside(Unit):
         self._bas_name = bas_name
 
 
-class BreakPoint(Unit):
+class BreakPoint(BasicUnit):
     """
         钢轨断点
     """

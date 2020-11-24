@@ -1,8 +1,8 @@
-from src.Unit.Unit import Unit
-from TrackCircuitElement.OutsideModule import ZPW2000A_TCSR_QJ_Normal
+from src.Unit.BasicUnit import BasicUnit
+from src.Module.OutsideModule import ZPW2000A_TCSR_QJ_Normal
 
 
-class TcsrUnit(Unit):
+class TcsrUnit(BasicUnit):
     """
         发送接收单元
     """

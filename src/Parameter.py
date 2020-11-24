@@ -1,4 +1,4 @@
-from TrackCircuitElement.ParamType import ImpedanceType
+from src.ParamType import ImpedanceType
 
 
 class Parameter:
@@ -6,7 +6,7 @@ class Parameter:
         标准参数类
     """
 
-    from TrackCircuitElement.TcsrModule import TcsrTADXfmr
+    from src.Module.TcsrModule import TcsrTADXfmr
 
     def __init__(self, name):
         self.name = name
@@ -28,5 +28,5 @@ class TADXfmrParam(Parameter):
 
     @property
     def param_class(self):
-        from TrackCircuitElement.TcsrModule import TcsrTADXfmr
+        from src.Module.TcsrModule import TcsrTADXfmr
         return TcsrTADXfmr

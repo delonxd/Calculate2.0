@@ -1,4 +1,4 @@
-class Unit:
+class BasicUnit:
     """
         轨面单元
     """
