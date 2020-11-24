@@ -7,7 +7,7 @@ from src.ParamType import MultiFreqImpType
 if __name__ == '__main__':
     param_dict = dict()
 
-    param = ZPW2000ATBParam('TB')
+    param = ZPW2000ATBParam('Param_TB')
     param_dict[param.name] = param
 
     param[1700] = MultiFreqImpType()

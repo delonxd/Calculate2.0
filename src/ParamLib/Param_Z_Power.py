@@ -7,7 +7,7 @@ from src.ParamType import MultiFreqImpType
 if __name__ == '__main__':
     param_dict = dict()
 
-    param = ZPW2000AZPower('Z_Power')
+    param = ZPW2000AZPower('Param_Z_Power')
     param_dict[param.name] = param
 
     param[1] = MultiFreqImpType()

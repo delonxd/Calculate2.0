@@ -7,7 +7,7 @@ from src.ParamType import MultiFreqImpType
 if __name__ == '__main__':
     param_dict = dict()
 
-    param = TADXfmrParam('TAD_Rcv')
+    param = TADXfmrParam('Param_TAD_Snd_ZN')
     param_dict[param.name] = param
 
     param.z1 = MultiFreqImpType()
@@ -43,10 +43,10 @@ if __name__ == '__main__':
     }
 
     param.n = {
-        1700: 8.7351,
-        2000: 8.7384,
-        2300: 8.6904,
-        2600: 8.7085,
+        1700: 13.5,
+        2000: 13.5,
+        2300: 12,
+        2600: 12,
     }
 
     Parameter.param_dict_to_pkl(param_dict)

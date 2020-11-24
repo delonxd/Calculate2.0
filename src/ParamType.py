@@ -729,8 +729,9 @@ class MultiFreqImpType:
         多频率阻抗类
     """
 
-    def __init__(self):
+    def __init__(self, name=None):
         self.freq_dict = {}
+        self.name = name
 
     # z = ParaDescribe('z_complex')
     z_complex = ParaDescribe('z_complex')

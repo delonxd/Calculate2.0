@@ -7,7 +7,7 @@ from src.ParamType import MultiFreqImpType
 if __name__ == '__main__':
     param_dict = dict()
 
-    param = TADXfmrParam('TAD_Snd_QJ')
+    param = TADXfmrParam('Param_TAD_Snd_QJ')
     param_dict[param.name] = param
 
     param.z1 = MultiFreqImpType()

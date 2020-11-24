@@ -7,7 +7,7 @@ from src.ParamType import MultiFreqImpType
 if __name__ == '__main__':
     param_dict = dict()
 
-    param = FLXfmrParam('FL_Snd')
+    param = FLXfmrParam('Param_FL_Snd')
     param_dict[param.name] = param
 
     param.z1 = MultiFreqImpType()
