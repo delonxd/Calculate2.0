@@ -104,7 +104,7 @@ class TcsrTADXfmr(BasicModule):
             self._param[0] = kwargs['z3']
 
         if 'zc' in kwargs:
-            self._param[1] = kwargs['z3']
+            self._param[1] = kwargs['zc']
 
     @property
     def z3(self):

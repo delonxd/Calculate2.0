@@ -93,3 +93,7 @@ class UnitGroup:
     def create_module(self):
         for unit in self.unit_set:
             unit.create_module()
+
+    def init_param(self, param_dict):
+        for unit in self.unit_set:
+            unit.module.init_param(param_dict)

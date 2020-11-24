@@ -1,6 +1,8 @@
 from src.TrackCircuitConcept.Section import Section
 from src.Freq import Freq
 from src.Unit.BasicUnit import UnitGroup
+from src.Parameter import Parameter
+from src.ParamType import CapacitanceType
 
 
 class SectionGroup:
@@ -184,4 +186,10 @@ if __name__ == '__main__':
     yy = ug1.get_unit_pos()
     zz = ug1.get_name_list()
     ug1.create_module()
+
+    pd = Parameter.read_param_pkl()
+
+    pd['Param_CapC'] = CapacitanceType(25e-6)
+
+    ug1.init_param(param_dict=pd)
     pass

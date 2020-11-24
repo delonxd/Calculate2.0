@@ -1,5 +1,6 @@
 # from src.ParamType import ImpedanceType
 import pickle
+import os
 
 
 class Parameter:
@@ -22,6 +23,32 @@ class Parameter:
         address = '../ParamPkl/%s.pkl' % name
         with open(address, 'wb') as pk_f:
             pickle.dump(param, pk_f)
+
+    # @classmethod
+    # def read_param_lib(cls):
+    #     dir_path = os.path.dirname(__file__)
+    #     dir_path = os.path.join(dir_path, 'ParamLib')
+    #     # print(dir_path)
+    #     name_list = os.listdir(dir_path)
+    #     for name in name_list:
+    #         path = os.path.join(dir_path, name)
+    #         os.system(path)
+    #     tmp = Parameter.read_param_pkl()
+    #     return tmp
+
+    @classmethod
+    def read_param_pkl(cls):
+        param_dict = dict()
+        dir_path = os.path.dirname(__file__)
+        dir_path = os.path.join(dir_path, 'ParamPkl')
+        # print(dir_path)
+        name_list = os.listdir(dir_path)
+        for name in name_list:
+            path = os.path.join(dir_path, name)
+            with open(path, 'rb') as pk_f:
+                tmp = pickle.load(pk_f)
+            param_dict[tmp.name] = tmp
+        return param_dict
 
 
 class TADXfmrParam(Parameter):
