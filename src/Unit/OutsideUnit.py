@@ -38,7 +38,7 @@ class TB(BasicUnit):
 
     @property
     def freq(self):
-        return
+        return self.parent.freq
 
 
 class UPowerOut(BasicUnit):
