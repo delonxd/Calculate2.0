@@ -49,7 +49,7 @@ class Node:
     #         raise KeyboardInterrupt("类型异常：需要边类型")
 
     def link_edge(self, edge, outflow: bool = True):
-        from TrackCircuitElement.Edge import Edge
+        from src.CircuitConcept.Edge import Edge
 
         if isinstance(edge, Edge):
             self.edges.add(edge)
@@ -61,7 +61,7 @@ class Node:
             raise KeyboardInterrupt("类型异常：需要边类型")
 
     def link_node(self, other):
-        from TrackCircuitElement.Port import Port
+        from src.CircuitConcept.Port import Port
 
         if isinstance(other, Node):
             for edge in other.edges:

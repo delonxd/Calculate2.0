@@ -1,4 +1,4 @@
-from TrackCircuitElement.Unit import Unit
+from src.Unit.Unit import Unit
 from TrackCircuitElement.OutsideModule import ZPW2000A_TCSR_QJ_Normal
 
 
@@ -21,7 +21,7 @@ class TcsrUnit(Unit):
 
     @property
     def bas_name(self):
-        from TrackCircuitElement.Section import Section
+        from src.TrackCircuitConcept.Section import Section
 
         if isinstance(self.parent, Section):
             if self == self.parent.l_tcsr:
@@ -39,7 +39,7 @@ class TcsrUnit(Unit):
 
     @property
     def rlt_pos(self):
-        from TrackCircuitElement.Section import Section
+        from src.TrackCircuitConcept.Section import Section
 
         if isinstance(self.parent, Section):
             if self == self.parent.l_tcsr:
@@ -70,8 +70,8 @@ class TcsrUnit(Unit):
 
     @property
     def md_type(self):
-        from TrackCircuitElement.Section import ZPW2000A_STyp
-        from TrackCircuitElement.Joint import Electric_2000A_JTyp, Mechanical_JTyp
+        from src.TrackCircuitConcept.Section import ZPW2000A_STyp
+        from src.TrackCircuitConcept.Joint import Electric_2000A_JTyp, Mechanical_JTyp
 
         sec = self.parent
         jnt = self.connect_joint
