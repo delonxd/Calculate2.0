@@ -1,5 +1,5 @@
 from src.Unit.BasicUnit import BasicUnit
-from src.Module.OutsideModule import ZPW2000A_TCSR_QJ_Normal
+from src.Module.TcsrLib import ZPW2000A_TCSR_QJ_Normal
 
 
 class TcsrUnit(BasicUnit):
@@ -108,10 +108,6 @@ class TcsrUnit(BasicUnit):
 
         if 'cable_len' in kwargs:
             self.cable_len = kwargs['cable_len']
-
-    def load_param(self):
-        param = self.param_dict['Param_TB'][self.freq]
-        self.module.load_kw(param=param)
 
 
 class TCSR_Mde_Flg:

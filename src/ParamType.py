@@ -940,7 +940,7 @@ if __name__ == '__main__':
     # c = Impedance.get_rlc_s(0, 1)
     # d = Impedance.get_rlc_p(0, 1)
     e = Impedance.get_rlc_s(np.inf, 1)
-    f = Impedance.get_rlc_p(np.inf, 1)
+    ff = Impedance.get_rlc_p(np.inf, 1)
     j = Impedance.get_rlc_s(1, 1)
     h = Impedance.get_rlc_p(1, 1)
     a = ResistanceType(12)
