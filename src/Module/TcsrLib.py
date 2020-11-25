@@ -6,6 +6,7 @@ from src.Module.ElectricModule import CableModule
 from src.Module.TcsrModule import TcsrTADXfmr
 from src.Module.TcsrModule import TcsrBA
 from src.Module.TcsrModule import TcsrCA
+from src.Module.TcsrModule import TcsrCable
 
 
 class ZPW2000A_TCSR_QJ_Normal(BasicModule):
@@ -22,7 +23,8 @@ class ZPW2000A_TCSR_QJ_Normal(BasicModule):
         self.power = TcsrPower(self, '1发送器')
         self.receiver = TcsrReceiver(self, '1接收器')
         self.fl_xfmr = TcsrFLXfmr(self, '2FL')
-        self.cable = CableModule(self, '3电缆')
+        # self.cable = CableModule(self, '3电缆')
+        self.cable = TcsrCable(self, '3电缆')
         self.tad_xfmr = TcsrTADXfmr(self, '4TAD')
         self.ba = TcsrBA(self, '5PT')
         self.ca = TcsrCA(self, '6CA')
@@ -41,6 +43,18 @@ class ZPW2000A_TCSR_QJ_Normal(BasicModule):
         self.create_port()
 
         self.load_kw(**kwargs)
+
+    @property
+    def m_freq(self):
+        return self.parent.m_freq
+
+    @property
+    def snd_lvl(self):
+        return self.parent.snd_lvl
+
+    @property
+    def cable_len(self):
+        return self.parent.cable_len
 
     def load_kw(self, **kwargs):
 
@@ -98,11 +112,11 @@ class ZPW2000A_TCSR_QJ_Normal(BasicModule):
             self.fl_xfmr.load_kw(n=kwargs['fl_param'].n)
 
         if 'tad_param' in kwargs:
-            self.fl_xfmr.load_kw(z1=kwargs['tad_param'].z1)
-            self.fl_xfmr.load_kw(z2=kwargs['tad_param'].z2)
-            self.fl_xfmr.load_kw(z3=kwargs['tad_param'].z3)
-            self.fl_xfmr.load_kw(zc=kwargs['tad_param'].zc)
-            self.fl_xfmr.load_kw(n=kwargs['tad_param'].n)
+            self.tad_xfmr.load_kw(z1=kwargs['tad_param'].z1)
+            self.tad_xfmr.load_kw(z2=kwargs['tad_param'].z2)
+            self.tad_xfmr.load_kw(z3=kwargs['tad_param'].z3)
+            self.tad_xfmr.load_kw(zc=kwargs['tad_param'].zc)
+            self.tad_xfmr.load_kw(n=kwargs['tad_param'].n)
 
         if 'cb_param' in kwargs:
             self.cable.load_kw(R=kwargs['cb_param'].R)
@@ -121,7 +135,7 @@ class ZPW2000A_TCSR_QJ_Normal(BasicModule):
         self.config_port(self.modules[-1].ports[-2], self.modules[-1].ports[-1])
 
     def config_param(self, freq):
-        for ele in self.modules():
+        for ele in self.modules:
             ele.config_param(freq)
 
     def init_param(self, param_dict):
