@@ -68,6 +68,22 @@ class LineGroup:
 
         self.load_kwargs(**kwargs)
 
+    @property
+    def bas_name(self):
+        if self._bas_name is None:
+            return ''
+        else:
+            return self._bas_name
+
+    @property
+    def name(self):
+        if self.parent is None:
+            return self.bas_name
+        else:
+            name = self.parent.name + '_' + self.bas_name
+            self._name = name
+            return name
+
     def add_line(self, line):
         if isinstance(line, Line):
             self.lines.append(line)
