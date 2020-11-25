@@ -37,7 +37,7 @@ class ImpedanceModule(BasicModule):
         self.config_port(Port(self.r1, True), Port(self.r1, False))
 
     def config_param(self, freq):
-        self.r1.config_param(self.param[0].z(freq))
+        self.r1.config_param(self.z.z(freq))
 
 
 class CableModule(BasicModule):
@@ -149,8 +149,8 @@ class XfmrModule(BasicModule):
                          Port(self.w2, True), Port(self.w2, False))
 
     def config_param(self, freq):
-        self.w1.config_param(self.w2, self.n)
-        self.w2.config_param(self.w1, 1 / self.n)
+        self.w1.config_param(self.w2, self.n[freq])
+        self.w2.config_param(self.w1, 1 / self.n[freq])
         # self.w1.source = True
         # self.w2.source = False
 
