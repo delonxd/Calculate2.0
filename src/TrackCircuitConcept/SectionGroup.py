@@ -165,31 +165,4 @@ class SectionGroup:
 
 
 if __name__ == '__main__':
-    sg1 = SectionGroup(
-        parent=None,
-        bas_name='地面',
-        rlt_pos=30,
-        m_nbr=2,
-        m_freqs=[Freq(1700), Freq(2300)],
-        m_lens=[650, 300],
-        j_lens=[20, 50, 29],
-        sec_type='2000A',
-        c_nbrs=[7, 0],
-        sr_mode='左发',
-        snd_lvl=1,
-        cable_len=10,
-        tb_mode='双端TB',
-        # parameter=parameter,
-    )
-    xx = sg1.sec_list[1].l_tcsr
-    ug1 = UnitGroup(sg1.get_all_units())
-    yy = ug1.get_unit_pos()
-    zz = ug1.get_name_list()
-    ug1.create_module()
-
-    pd = Parameter.read_param_pkl()
-
-    pd['Param_CapC'] = CapacitanceType(25e-6)
-
-    ug1.init_param(param_dict=pd)
     pass
