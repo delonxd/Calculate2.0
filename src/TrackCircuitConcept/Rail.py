@@ -15,9 +15,17 @@ class Rail:
     def l_pos(self):
         return self._l_pos
 
+    @l_pos.setter
+    def l_pos(self, value):
+        self._l_pos = value
+
     @property
     def r_pos(self):
         return self._r_pos
+
+    @r_pos.setter
+    def r_pos(self, value):
+        self._r_pos = value
 
     @property
     def z_trk(self):
@@ -35,6 +43,8 @@ class RailGroup:
 
     def __init__(self):
         self.rails = set()
+        self.add_rail(Rail())
+        self._pos_set = set()
 
     def add_rail(self, new_rail):
         """
@@ -63,3 +73,12 @@ class RailGroup:
                     self.rails.discard(rail)
             # new_rail.parant_line = self.parent_ins
             self.rails.add(new_rail)
+
+    @property
+    def pos_set(self):
+        tmp = self._pos_set
+        tmp.clear()
+        for rail in self.rails:
+            tmp.add(rail.l_pos)
+            tmp.add(rail.r_pos)
+        return tmp

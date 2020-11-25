@@ -1,4 +1,6 @@
 from src.TrackCircuitConcept.Rail import RailGroup
+from src.Unit.BasicUnit import UnitGroup
+from src.Unit.TrackUnit import TrackUnit
 
 
 class Line:
@@ -12,6 +14,10 @@ class Line:
         self._name = None
         self.rails = RailGroup()
         self.element = list()
+
+        self._all_units = UnitGroup(set())
+        self._pos_set = set()
+        self._track_units = set()
 
         self.load_kwargs(**kwargs)
 
@@ -62,7 +68,32 @@ class Line:
         all_units = set()
         for ele in self.element:
             all_units.update(ele.get_all_units())
+        self._all_units.set_units(all_units)
         return all_units
+
+    @property
+    def pos_set(self):
+        tmp = self._pos_set
+        tmp.clear()
+        tmp.update(self.rails.pos_set)
+        tmp.update(self._all_units.pos_set)
+        return tmp
+
+    def init_track(self, pos_set=None):
+        if pos_set is None:
+            pos_set = self.pos_set
+        if isinstance(pos_set, set):
+            tmp = self._track_units
+            tmp.clear()
+            pos_list = list(pos_set)
+            pos_list.sort()
+            for index in range(len(pos_list)-1):
+                l_pos = pos_list[index]
+                r_pos = pos_list[index + 1]
+                name = '钢轨段%s' % (index+1)
+                unit = TrackUnit(self, name)
+                unit.load_kwargs(l_pos=l_pos, r_pos=r_pos)
+                tmp.add(unit)
 
 
 class LineGroup:
@@ -75,6 +106,9 @@ class LineGroup:
         self._bas_name = bas_name
         self._name = None
         self.lines = list()
+
+        self._all_units = UnitGroup(set())
+        self._pos_set = set()
 
         self.load_kwargs(**kwargs)
 
@@ -111,7 +145,22 @@ class LineGroup:
             line.init_unit()
 
     def get_all_units(self):
+        self._all_units.clear()
         all_units = set()
         for line in self.lines:
             all_units.update(line.get_all_units())
+
+        self._all_units.set_units(all_units)
         return all_units
+
+    @property
+    def pos_set(self):
+        tmp = self._pos_set
+        tmp.clear()
+        for line in self.lines:
+            tmp.update(line.pos_set)
+        return tmp
+
+    def init_track(self):
+        for line in self.lines:
+            line.init_track(pos_set=self.pos_set)
