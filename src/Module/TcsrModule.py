@@ -2,6 +2,7 @@ from src.Module.BasicModule import BasicModule
 from src.Module.ElectricModule import ImpedanceModule
 from src.Module.ElectricModule import XfmrModule
 from src.Module.ElectricModule import TCircuitModule
+from src.Module.ElectricModule import CableModule
 from src.CircuitConcept.Edge import VolSrcEdge
 from src.CircuitConcept.Edge import WireEdge
 from src.CircuitConcept.Edge import ImpedanceEdge
@@ -169,6 +170,10 @@ class TcsrPower(BasicModule):
     def z_pwr(self):
         return self.param[1]
 
+    @property
+    def snd_lvl(self):
+        return self.parent.snd_lvl
+
     # def create_circuit(self):
     #     self.u1.start.link_node(self.r1.ports[0])
     #
@@ -182,8 +187,8 @@ class TcsrPower(BasicModule):
         self.config_port(Port(self.r1, False), Port(self.u1, False))
 
     def config_param(self, freq):
-        self.u1.config_param(self.u_pwr.z(freq))
-        self.r1.config_param(self.z_pwr.z(freq))
+        self.u1.config_param(0)
+        self.r1.config_param(self.z_pwr[self.snd_lvl].z(freq))
 
 
 class TcsrReceiver(ImpedanceModule):
@@ -214,7 +219,7 @@ class TcsrBA(ImpedanceModule):
 
     @property
     def main_freq(self):
-        return self.parent.freq
+        return self.parent.m_freq
 
 
 class TcsrCA(BasicModule):
@@ -252,3 +257,16 @@ class TcsrCA(BasicModule):
 
     def config_param(self, freq):
         self.r1.config_param(self.z.z(freq))
+
+
+class TcsrCable(CableModule):
+    """
+        发送接收电缆
+    """
+
+    def __init__(self, parent, bas_name, **kwargs):
+        super().__init__(parent, bas_name, **kwargs)
+
+    @property
+    def length(self):
+        return self.parent.cable_len
