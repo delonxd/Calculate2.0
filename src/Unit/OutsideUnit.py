@@ -2,6 +2,7 @@ from src.Unit.BasicUnit import BasicUnit
 from src.Module.OutsideModule import ZPW2000A_SVA
 from src.Module.OutsideModule import ZPW2000A_CapC
 from src.Module.OutsideModule import ZPW2000A_TB
+from src.Module.OutsideModule import Outside_R_Short
 
 
 class SVA(BasicUnit):
@@ -51,14 +52,15 @@ class UPowerOut(BasicUnit):
         self._bas_name = bas_name
 
 
-class ROutside(BasicUnit):
+class RShort(BasicUnit):
     """
-        室外电阻
+        分路电阻
     """
 
     def __init__(self, parent, bas_name):
         super().__init__(parent)
         self._bas_name = bas_name
+        self._md_type = Outside_R_Short
 
 
 class BreakPoint(BasicUnit):

@@ -54,6 +54,16 @@ class Line:
             for ele in elements:
                 self.add_element(ele)
 
+    def init_unit(self):
+        for ele in self.element:
+            ele.init_unit()
+
+    def get_all_units(self):
+        all_units = set()
+        for ele in self.element:
+            all_units.update(ele.get_all_units())
+        return all_units
+
 
 class LineGroup:
     """
@@ -95,3 +105,13 @@ class LineGroup:
             for line in lines:
                 if isinstance(line, Line):
                     self.add_line(line)
+
+    def init_unit(self):
+        for line in self.lines:
+            line.init_unit()
+
+    def get_all_units(self):
+        all_units = set()
+        for line in self.lines:
+            all_units.update(line.get_all_units())
+        return all_units

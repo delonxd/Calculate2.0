@@ -26,7 +26,7 @@ class SectionGroup:
 
         self.load_kwargs(**kwargs)
         self.link_section()
-        self.init_unit()
+        # self.init_unit()
 
     @property
     def rlt_pos(self):
