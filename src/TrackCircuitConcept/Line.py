@@ -16,8 +16,10 @@ class Line:
         self.element = list()
 
         self._all_units = UnitGroup(set())
+        self._track_units = UnitGroup(set())
         self._pos_set = set()
-        self._track_units = set()
+        self._track_node = None
+
 
         self.load_kwargs(**kwargs)
 
@@ -87,6 +89,7 @@ class Line:
             tmp.clear()
             pos_list = list(pos_set)
             pos_list.sort()
+            pos_list = pos_list[1:-1]
             for index in range(len(pos_list)-1):
                 l_pos = pos_list[index]
                 r_pos = pos_list[index + 1]
@@ -94,6 +97,13 @@ class Line:
                 unit = TrackUnit(self, name)
                 unit.load_kwargs(l_pos=l_pos, r_pos=r_pos)
                 tmp.add(unit)
+
+    @property
+    def track_units(self):
+        return self._track_units
+
+    def link_track(self):
+        pass
 
 
 class LineGroup:
@@ -109,6 +119,7 @@ class LineGroup:
 
         self._all_units = UnitGroup(set())
         self._pos_set = set()
+        self._track_units = set()
 
         self.load_kwargs(**kwargs)
 
@@ -164,3 +175,7 @@ class LineGroup:
     def init_track(self):
         for line in self.lines:
             line.init_track(pos_set=self.pos_set)
+
+    @property
+    def track_units(self):
+        return self._track_units

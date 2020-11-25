@@ -13,7 +13,28 @@ class TrackUnit(BasicUnit):
 
         self._l_pos = None
         self._r_pos = None
-        self._mode = None
+        self._md_type = TrackModule
+
+    @property
+    def length(self):
+        tmp = self.r_pos - self.l_pos
+        if tmp < 0:
+            raise KeyboardInterrupt("钢轨段右端坐标应大于等于左端坐标")
+        return tmp
+
+    @property
+    def l_pos(self):
+        if self._l_pos is None:
+            return 0
+        else:
+            return self._l_pos
+
+    @property
+    def r_pos(self):
+        if self._r_pos is None:
+            return 0
+        else:
+            return self._r_pos
 
     @property
     def rlt_pos(self):
@@ -53,5 +74,5 @@ class TrackUnit(BasicUnit):
         if 'r_pos' in kwargs:
             self._r_pos = kwargs['r_pos']
 
-        if 'mode' in kwargs:
-            self._mode = kwargs['mode']
+        if 'md_type' in kwargs:
+            self._md_type = kwargs['md_type']

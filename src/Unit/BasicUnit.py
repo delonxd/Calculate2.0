@@ -77,6 +77,9 @@ class UnitGroup:
         self._pos_set = set()
         self._name_list = list()
 
+    def add(self, obj):
+        self.unit_set.add(obj)
+
     def set_units(self, value):
         self.unit_set.clear()
         self.unit_set.update(value)
@@ -112,7 +115,14 @@ class UnitGroup:
 
     def init_param(self, param_dict):
         for unit in self.unit_set:
-            unit.module.init_param(param_dict)
+            if unit.module:
+                unit.module.init_param(param_dict)
+
+    def config_param(self, freq):
+        for unit in self.unit_set:
+            print(unit.name)
+            if unit.module:
+                unit.module.config_param(freq)
 
     def clear(self):
         self.unit_set.clear()

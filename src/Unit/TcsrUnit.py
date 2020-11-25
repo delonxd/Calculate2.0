@@ -1,5 +1,6 @@
 from src.Unit.BasicUnit import BasicUnit
 from src.Module.TcsrLib import ZPW2000A_TCSR_QJ_Normal
+from src.Module.TcsrLib import ZPW2000A_TCSR_ZN_PT_SVA1
 
 
 class TcsrUnit(BasicUnit):
@@ -18,6 +19,10 @@ class TcsrUnit(BasicUnit):
         self.rcv_lvl = None
         self._mode = None
         self.cable_len = None
+
+    @property
+    def m_freq(self):
+        return self.parent.freq
 
     @property
     def bas_name(self):
@@ -83,8 +88,7 @@ class TcsrUnit(BasicUnit):
             if jnt.j_type == Electric_2000A_JTyp:
                 return ZPW2000A_TCSR_QJ_Normal
             elif jnt.j_type == Mechanical_JTyp:
-                # return ZPW2000A_TCSR_ZN_PTSVA_Plus
-                return
+                return ZPW2000A_TCSR_ZN_PT_SVA1
             else:
                 print(text)
                 return
