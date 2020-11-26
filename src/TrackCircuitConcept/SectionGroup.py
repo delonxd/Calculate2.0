@@ -1,8 +1,5 @@
 from src.TrackCircuitConcept.Section import Section
-from src.Freq import Freq
-# from src.Unit.BasicUnit import UnitGroup
-from src.Parameter import Parameter
-from src.ParamType import CapacitanceType
+from src.Unit.UnitGroup import UnitSet
 
 
 class SectionGroup:
@@ -22,7 +19,7 @@ class SectionGroup:
 
         # generated
         self._name = str()
-        self.units = set()
+        self.units = UnitSet()
 
         self.load_kwargs(**kwargs)
         self.link_section()
@@ -157,7 +154,7 @@ class SectionGroup:
             sec.init_unit()
 
     def get_all_units(self):
-        all_units = set()
+        all_units = UnitSet()
         all_units.update(self.units)
         for section in self.sec_list:
             all_units.update(section.get_all_units())
