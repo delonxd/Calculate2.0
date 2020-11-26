@@ -3,7 +3,7 @@ from src.Unit.BasicUnit import BasicUnit
 
 class UnitSet(set):
     """
-        单元组
+        单元集合
     """
 
     def __init__(self, *args, **kwargs):
@@ -53,6 +53,11 @@ class UnitSet(set):
         tmp = self.get_all_modules()
         edge_set = tmp.get_all_edges()
         return edge_set
+
+    def get_all_nodes(self):
+        tmp = self.get_all_edges()
+        node_set = tmp.get_all_nodes()
+        return node_set
 
     def create_module(self):
         for unit in self:
