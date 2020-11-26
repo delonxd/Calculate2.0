@@ -42,7 +42,7 @@ class EdgeSet(set):
 
 class EdgeList(list):
     """
-        模块列表
+        边列表
     """
 
     def __init__(self, *args, **kwargs):
