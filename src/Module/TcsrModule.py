@@ -19,6 +19,9 @@ class TcsrXfmr(BasicModule):
         self.m1 = TCircuitModule(self, '1等效内阻')
         self.m2 = XfmrModule(self, '2理想变压器')
 
+        self.m2.w1.load_kwargs(bas_name='1室内侧')
+        self.m2.w2.load_kwargs(bas_name='2室外侧')
+
         self.add_element(self.m1, self.m2)
         self.create_circuit()
         self.create_port()
