@@ -3,6 +3,7 @@ from src.Unit.TcsrUnit import TcsrUnit
 from src.Unit.OutsideUnit import CapC
 from src.Unit.OutsideUnit import TB
 from src.Unit.TcsrUnit import Snd_Mde, Rcv_Mde
+from src.Unit.UnitGroup import UnitSet
 import numpy as np
 
 
@@ -33,7 +34,8 @@ class Section:
         # generated
         self._name = str()
         # self.c_list = list()
-        self.units = set()
+
+        self.units = UnitSet()
         # self.turnout = Turnout()
 
         self.load_kwargs(**kwargs)
@@ -177,7 +179,7 @@ class Section:
         pass
 
     def get_all_units(self):
-        all_units = set()
+        all_units = UnitSet()
         all_units.update(self.units)
         all_units.update(self.l_joint.get_all_units())
         all_units.update(self.r_joint.get_all_units())

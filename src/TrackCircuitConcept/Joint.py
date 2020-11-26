@@ -1,5 +1,6 @@
 from src.Unit.OutsideUnit import SVA
 from src.Unit.OutsideUnit import BreakPoint
+from src.Unit.UnitGroup import UnitSet
 
 
 class Joint:
@@ -19,7 +20,7 @@ class Joint:
 
         # generated
         self._name = str()
-        self.units = set()
+        self.units = UnitSet()
 
     @property
     def parent(self):
@@ -102,7 +103,7 @@ class Joint:
         self.j_type.init_unit(joint=self)
 
     def get_all_units(self):
-        all_units = set()
+        all_units = UnitSet()
         all_units.update(self.units)
         return all_units
 

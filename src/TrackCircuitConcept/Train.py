@@ -1,4 +1,5 @@
 from src.Unit.OutsideUnit import RShort
+from src.Unit.UnitGroup import UnitSet
 
 
 class Train:
@@ -12,7 +13,7 @@ class Train:
         self._rlt_pos = None
 
         self._name = None
-        self.units = set()
+        self.units = UnitSet()
 
         self.load_kwargs(**kwargs)
 
