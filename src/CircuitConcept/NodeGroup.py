@@ -22,3 +22,12 @@ class NodeSet(set):
             super().update(obj)
         else:
             raise KeyboardInterrupt("%s应为NodeSet类型" % obj)
+
+    @property
+    def name_list(self):
+        names = self._name_list
+        names.clear()
+        for edge in self:
+            names.append(edge.name)
+        names.sort()
+        return names

@@ -22,6 +22,14 @@ class EdgeSet(set):
         else:
             raise KeyboardInterrupt("%s应为EdgeSet类型" % obj)
 
+    def get_all_nodes(self):
+        from src.CircuitConcept.NodeGroup import NodeSet
+        tmp = NodeSet()
+        for edge in self:
+            tmp.add(edge.start)
+            tmp.add(edge.end)
+        return tmp
+
     @property
     def name_list(self):
         names = self._name_list
@@ -52,6 +60,14 @@ class EdgeList(list):
             super().extend(obj)
         else:
             raise KeyboardInterrupt("%s应为EdgeList类型" % obj)
+
+    def get_all_nodes(self):
+        from src.CircuitConcept.NodeGroup import NodeSet
+        tmp = NodeSet()
+        for edge in self:
+            tmp.add(edge.start)
+            tmp.add(edge.end)
+        return tmp
 
     @property
     def name_list(self):

@@ -8,7 +8,9 @@ class Node:
 
     def __init__(self):
         # self.edges = list()
-        self.edges = set()
+        from src.CircuitConcept.EdgeGroup import EdgeSet
+
+        self.edges = EdgeSet()
         self.parent = None
         self.variable = Variable()
         self.variable_type = 'U'
@@ -29,6 +31,7 @@ class Node:
                 return edge.name + '_起点'
             else:
                 return edge.name + '_终点'
+        return ''
 
     # @property
     # def name(self):
