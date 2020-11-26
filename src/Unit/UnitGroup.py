@@ -1,4 +1,7 @@
-class UnitGroup(set):
+from src.Unit.BasicUnit import BasicUnit
+
+
+class UnitSet(set):
     """
         单元组
     """
@@ -7,6 +10,18 @@ class UnitGroup(set):
         super().__init__(*args, **kwargs)
         self._pos_set = set()
         self._name_list = list()
+
+    def add(self, obj):
+        if isinstance(obj, BasicUnit):
+            super().add(obj)
+        else:
+            raise KeyboardInterrupt("%s应为BasicUnit类型" % obj)
+
+    def update(self, obj):
+        if isinstance(obj, UnitSet):
+            super().update(obj)
+        else:
+            raise KeyboardInterrupt("%s应为UnitSet类型" % obj)
 
     @property
     def pos_set(self):
@@ -22,7 +37,22 @@ class UnitGroup(set):
         tmp.clear()
         for unit in self:
             tmp.append(unit.name)
+        tmp.sort()
         return self._name_list
+
+    def get_all_modules(self):
+        from src.Module.ModuleGroup import ModuleSet
+        tmp = ModuleSet()
+
+        for unit in self:
+            if unit.module is not None:
+                tmp.add(unit.module)
+        return tmp
+
+    def get_all_edges(self):
+        tmp = self.get_all_modules()
+        edge_set = tmp.get_all_edges()
+        return edge_set
 
     def create_module(self):
         for unit in self:
