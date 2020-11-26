@@ -64,66 +64,70 @@ class BasicUnit:
     def load_param(self):
         pass
 
-
-class UnitGroup:
-    """
-        轨面单元组
-    """
-    
-    def __init__(self, unit_set):
-        self.unit_set: set = unit_set
-        self._unit_list = list()
-
-        self._pos_set = set()
-        self._name_list = list()
-
-    def add(self, obj):
-        self.unit_set.add(obj)
-
-    def set_units(self, value):
-        self.unit_set.clear()
-        self.unit_set.update(value)
-
     @property
-    def pos_set(self):
-        tmp = self._pos_set
-        tmp.clear()
-        for unit in self.unit_set:
-            tmp.add(unit.abs_pos)
-        return tmp
+    def bp_flg(self):
+        return None
 
-    @property
-    def name_list(self):
-        tmp = list()
-        for unit in self.unit_set:
-            tmp.append(unit.name)
-        self._name_list = tmp
-        return self._name_list
 
-    # def get_unit_pos(self):
-    #     unit_list = list()
-    #     for unit in self.unit_set:
-    #         abs_pos = unit.abs_pos
-    #         unit_list.append((abs_pos, unit))
-    #     unit_list.sort()
-    #     self._unit_list = unit_list
-    #     return unit_list
-
-    def create_module(self):
-        for unit in self.unit_set:
-            unit.create_module()
-
-    def init_param(self, param_dict):
-        for unit in self.unit_set:
-            if unit.module:
-                unit.module.init_param(param_dict)
-
-    def config_param(self, freq):
-        for unit in self.unit_set:
-            print(unit.name)
-            if unit.module:
-                unit.module.config_param(freq)
-
-    def clear(self):
-        self.unit_set.clear()
-        self._unit_list.clear()
+# class UnitGroup:
+#     """
+#         轨面单元组
+#     """
+#
+#     def __init__(self, unit_set):
+#         self.unit_set: set = unit_set
+#         self._unit_list = list()
+#
+#         self._pos_set = set()
+#         self._name_list = list()
+#
+#     def add(self, obj):
+#         self.unit_set.add(obj)
+#
+#     def set_units(self, value):
+#         self.unit_set.clear()
+#         self.unit_set.update(value)
+#
+#     @property
+#     def pos_set(self):
+#         tmp = self._pos_set
+#         tmp.clear()
+#         for unit in self.unit_set:
+#             tmp.add(unit.abs_pos)
+#         return tmp
+#
+#     @property
+#     def name_list(self):
+#         tmp = list()
+#         for unit in self.unit_set:
+#             tmp.append(unit.name)
+#         self._name_list = tmp
+#         return self._name_list
+#
+#     # def get_unit_pos(self):
+#     #     unit_list = list()
+#     #     for unit in self.unit_set:
+#     #         abs_pos = unit.abs_pos
+#     #         unit_list.append((abs_pos, unit))
+#     #     unit_list.sort()
+#     #     self._unit_list = unit_list
+#     #     return unit_list
+#
+#     def create_module(self):
+#         for unit in self.unit_set:
+#             unit.create_module()
+#
+#     def init_param(self, param_dict):
+#         for unit in self.unit_set:
+#             if unit.module:
+#                 unit.module.init_param(param_dict)
+#
+#     def config_param(self, freq):
+#         for unit in self.unit_set:
+#             print(unit.name)
+#             if unit.module:
+#                 unit.module.config_param(freq)
+#
+#     def clear(self):
+#         self.unit_set.clear()
+#         self._unit_list.clear()

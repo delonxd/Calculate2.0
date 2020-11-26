@@ -7,7 +7,8 @@ from src.Freq import Freq
 from src.ParamType import CapacitanceType
 from src.ParamType import ResistanceType
 from src.ParamType import MultiFreqImpType
-from src.Unit.BasicUnit import UnitGroup
+# from src.Unit.BasicUnit import UnitGroup
+from src.Unit.UnitGroup import UnitGroup
 import os
 import sys
 
@@ -83,7 +84,7 @@ if __name__ == '__main__':
 
     lg1.init_unit()
 
-    ug1 = UnitGroup(lg1.get_all_units())
+    ug1 = lg1.ele_units
     pos = ug1.pos_set
     names = ug1.name_list
 
@@ -92,6 +93,7 @@ if __name__ == '__main__':
     ug1.config_param(1700)
 
     # l1.init_track()
+    lg1.init_track_nodes()
     lg1.init_track()
 
     tu = l1.track_units

@@ -113,6 +113,10 @@ class TcsrUnit(BasicUnit):
         if 'cable_len' in kwargs:
             self.cable_len = kwargs['cable_len']
 
+    @property
+    def bp_flg(self):
+        return None
+
 
 class TCSR_Mde_Flg:
     """
