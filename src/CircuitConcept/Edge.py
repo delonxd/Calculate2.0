@@ -17,11 +17,27 @@ class Edge:
         self.start.edges.add(self)
         self.end.edges.add(self)
 
-        self.base_name = base_name
-        self.name = ''
+        self._bas_name = base_name
+        self._name = ''
 
         self.variable = Variable()
         self.variable_type = 'I'
+
+    @property
+    def bas_name(self):
+        if self._bas_name is None:
+            return ''
+        else:
+            return self._bas_name
+
+    @property
+    def name(self):
+        if self.parent is None:
+            return self.bas_name
+        else:
+            name = self.parent.name + '_' + self.bas_name
+            self._name = name
+            return name
 
     @property
     def current(self):
@@ -32,12 +48,9 @@ class Edge:
         voltage = self.start.voltage - self.end.voltage
         return voltage
 
-    def config_name(self):
-        if self.parent:
-            self.name = self.parent.name + '_' + self.base_name
-        else:
-            self.name = self.base_name
-    # def link_edge(self, node):
+    def load_kwargs(self, **kwargs):
+        if 'bas_name' in kwargs:
+            self._bas_name = kwargs['bas_name']
 
 
 class ImpedanceEdge(Edge):
