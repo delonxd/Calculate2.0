@@ -38,6 +38,11 @@ class ModuleSet(set):
             tmp.update(module.get_all_edges())
         return tmp
 
+    def get_all_nodes(self):
+        tmp = self.get_all_edges()
+        node_set = tmp.get_all_nodes()
+        return node_set
+
     @property
     def name_list(self):
         names = self._name_list
@@ -84,6 +89,11 @@ class ModuleList(list):
         for module in self:
             tmp.update(module.get_all_edges())
         return tmp
+
+    def get_all_nodes(self):
+        tmp = self.get_all_edges()
+        node_set = tmp.get_all_nodes()
+        return node_set
 
     @property
     def name_list(self):

@@ -1,8 +1,11 @@
 from src.TrackCircuitConcept.Rail import RailGroup
-# from src.Unit.BasicUnit import UnitGroup
-from src.Unit.UnitGroup import UnitGroup
+from src.Unit.UnitGroup import UnitSet
 from src.Unit.TrackUnit import TrackUnit
 from src.TrackCircuitConcept.TrackNode import TrackNode
+
+from src.Module.ModuleGroup import ModuleSet
+from src.CircuitConcept.EdgeGroup import EdgeSet
+from src.CircuitConcept.NodeGroup import NodeSet
 
 
 class Line:
@@ -17,11 +20,15 @@ class Line:
         self.rails = RailGroup()
         self.element = list()
 
-        # self._all_units = UnitGroup(set())
-        self._ele_units = UnitGroup()
+        self._ele_units = UnitSet()
+        self._track_units = UnitSet()
+
         self._pos_set = set()
         self._track_nodes = dict()
-        self._track_units = UnitGroup()
+
+        self._all_modules = ModuleSet()
+        self._all_edges = EdgeSet()
+        self._all_nodes = NodeSet()
 
         self.load_kwargs(**kwargs)
 
@@ -32,10 +39,6 @@ class Line:
     @property
     def abs_pos(self):
         return 0
-
-    def add_element(self, ele):
-        self.element.append(ele)
-        ele.parent = self
 
     @property
     def bas_name(self):
@@ -53,6 +56,10 @@ class Line:
             self._name = name
             return name
 
+    def add_element(self, ele):
+        self.element.append(ele)
+        ele.parent = self
+
     def load_kwargs(self, **kwargs):
         if 'rails' in kwargs:
             rails = kwargs['rails']
@@ -64,18 +71,6 @@ class Line:
             for ele in elements:
                 self.add_element(ele)
 
-    def init_unit(self):
-        for ele in self.element:
-            ele.init_unit()
-
-    @property
-    def ele_units(self):
-        tmp = self._ele_units
-        tmp.clear()
-        for ele in self.element:
-            tmp.update(ele.get_all_units())
-        return tmp
-
     @property
     def pos_set(self):
         tmp = self._pos_set
@@ -83,6 +78,50 @@ class Line:
         tmp.update(self.rails.pos_set)
         tmp.update(self._ele_units.pos_set)
         return tmp
+
+    @property
+    def ele_units(self):
+        return self._ele_units
+
+    @property
+    def track_units(self):
+        return self._track_units
+
+    def get_all_modules(self):
+        tmp = self._all_modules
+        tmp.clear()
+        tmp.update(self.ele_units.get_all_modules())
+        tmp.update(self.track_units.get_all_modules())
+        return tmp
+
+    def get_all_edges(self):
+        tmp = self._all_edges
+        tmp.clear()
+        modules = self._all_modules
+        tmp.update(modules.get_all_edges())
+        return tmp
+
+    def get_all_nodes(self):
+        tmp = self._all_nodes
+        tmp.clear()
+        edges = self._all_edges
+        tmp.update(edges.get_all_nodes())
+        return tmp
+
+    def get_all_vars(self):
+        from src.CircuitConcept.Variable import VarSet
+        tmp = VarSet()
+
+        tmp.update(self._all_nodes.get_all_var())
+        tmp.update(self._all_edges.get_all_var())
+        return tmp
+
+    def init_unit(self):
+        tmp = self._ele_units
+        tmp.clear()
+        for ele in self.element:
+            ele.init_unit()
+            tmp.update(ele.get_all_units())
 
     def init_track_nodes(self, pos_set=None):
         if pos_set is None:
@@ -117,17 +156,25 @@ class Line:
         from src.TrackCircuitConcept.TrackNode import BreakNode
 
         for unit in self._ele_units:
+            node = nodes[unit.abs_pos]
             if isinstance(unit, BreakPoint):
-                nodes._mode = BreakNode
+                node._mode = BreakNode
             else:
-                nodes[unit.abs_pos].units.add(unit)
-
-    @property
-    def track_units(self):
-        return self._track_units
+                node.units.add(unit)
 
     def link_track(self):
-        pass
+        for node in self._track_nodes.values():
+            node.link_nodes()
+
+    def create_module(self):
+        self.ele_units.create_module()
+        self.track_units.create_module()
+
+    def init_param(self, param_dict):
+        self._all_modules.init_param(param_dict)
+
+    def config_param(self, freq):
+        self._all_modules.config_param(freq)
 
 
 class LineGroup:
@@ -141,10 +188,10 @@ class LineGroup:
         self._name = None
         self.lines = list()
 
-        self._ele_units = UnitGroup()
+        self._ele_units = UnitSet()
         # self._all_units = UnitGroup(set())
         self._pos_set = set()
-        self._track_units = UnitGroup()
+        self._track_units = UnitSet()
 
         self.load_kwargs(**kwargs)
 
@@ -176,19 +223,6 @@ class LineGroup:
                 if isinstance(line, Line):
                     self.add_line(line)
 
-    def init_unit(self):
-        for line in self.lines:
-            line.init_unit()
-
-    # def get_all_units(self):
-    #     self._all_units.clear()
-    #     all_units = set()
-    #     for line in self.lines:
-    #         all_units.update(line.get_all_units())
-    #
-    #     self._all_units.set_units(all_units)
-    #     return all_units
-
     @property
     def pos_set(self):
         tmp = self._pos_set
@@ -196,14 +230,6 @@ class LineGroup:
         for line in self.lines:
             tmp.update(line.pos_set)
         return tmp
-
-    def init_track_nodes(self):
-        for line in self.lines:
-            line.init_track_nodes(pos_set=self.pos_set)
-
-    def init_track(self):
-        for line in self.lines:
-            line.init_track()
 
     @property
     def ele_units(self):
@@ -216,3 +242,23 @@ class LineGroup:
     @property
     def track_units(self):
         return self._track_units
+
+    def init_unit(self):
+        for line in self.lines:
+            line.init_unit()
+
+    def init_track_nodes(self):
+        for line in self.lines:
+            line.init_track_nodes(pos_set=self.pos_set)
+
+    def init_track(self):
+        for line in self.lines:
+            line.init_track()
+
+    def link_track(self):
+        for line in self.lines:
+            line.link_track()
+
+    def create_module(self):
+        for line in self.lines:
+            line.create_module()

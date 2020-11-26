@@ -31,3 +31,10 @@ class NodeSet(set):
             names.append(edge.name)
         names.sort()
         return names
+
+    def get_all_var(self):
+        from src.CircuitConcept.Variable import VarSet
+        tmp = VarSet()
+        for obj in self:
+            tmp.add(obj.variable)
+        return tmp

@@ -1,5 +1,6 @@
-from src.CircuitConcept.Variable import Variable
-
+# from src.CircuitConcept.Variable import Variable
+from src.CircuitConcept.Variable import VoltageVar
+from src.Equation.Equation import Equation
 
 class Node:
     """
@@ -11,9 +12,9 @@ class Node:
         from src.CircuitConcept.EdgeGroup import EdgeSet
 
         self.edges = EdgeSet()
-        self.parent = None
-        self.variable = Variable()
-        self.variable_type = 'U'
+        # self.parent = None
+        # self.variable = Variable(self)
+        self.variable = VoltageVar(self)
         self.zero = False
 
     @property
@@ -33,13 +34,19 @@ class Node:
                 return edge.name + '_终点'
         return ''
 
-    # @property
-    # def name(self):
-    #     direction, edge = self.edges[0]
-    #     if direction:
-    #         return edge.name + '_起点'
-    #     else:
-    #         return edge.name + '_终点'
+    def get_equation(self, equs):
+        equ = Equation(length=equs.length)
+
+        for edge in self.edges:
+            if self is edge.start:
+                value = 1
+            else:
+                value = -1
+
+            index = equs.var_dict[edge.variable]
+            equ.config_coeff(index, value)
+
+        return equ
 
     # def link_edge(self, edge, outflow: bool = True):
     #     if isinstance(edge, Edge):
@@ -90,13 +97,3 @@ class Node:
     #         self.link_node(other.node)
     #     else:
     #         raise KeyboardInterrupt("类型异常：需要节点或端口类型")
-
-    #
-    # def print_edges(self):
-    #     list1 = []
-    #     for outflow, edge in self.edges:
-    #         if outflow:
-    #             list1.append((edge.name, '起点'))
-    #         else:
-    #             list1.append((edge.name, '终点'))
-    #     print(list1)

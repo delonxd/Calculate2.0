@@ -1,5 +1,7 @@
-from src.CircuitConcept.Variable import Variable
+# from src.CircuitConcept.Variable import Variable
+from src.CircuitConcept.Variable import CurrentVar
 from src.CircuitConcept.Node import Node
+from src.Equation.Equation import Equation
 
 
 class Edge:
@@ -20,8 +22,7 @@ class Edge:
         self._bas_name = base_name
         self._name = ''
 
-        self.variable = Variable()
-        self.variable_type = 'I'
+        self.variable = CurrentVar(self)
 
     @property
     def bas_name(self):
@@ -52,6 +53,9 @@ class Edge:
         if 'bas_name' in kwargs:
             self._bas_name = kwargs['bas_name']
 
+    def get_equation(self, equs):
+        pass
+
 
 class ImpedanceEdge(Edge):
     def __init__(self, parent, base_name):
@@ -64,6 +68,19 @@ class ImpedanceEdge(Edge):
 
     def config_param(self, param):
         self._z = param
+
+    def get_equation(self, equs):
+        equ = Equation(length=equs.length)
+
+        index = equs.var_dict[self.start.variable]
+        equ.config_coeff(index, 1)
+
+        index = equs.var_dict[self.end.variable]
+        equ.config_coeff(index, -1)
+
+        index = equs.var_dict[self.variable]
+        equ.config_coeff(index, self.z)
+        return equ
 
 
 class WindingEdge(Edge):
@@ -85,6 +102,10 @@ class WindingEdge(Edge):
         self._other = other
         self._n = n
 
+    def get_equation(self, equs):
+        equ = Equation(length=equs.length)
+        return equ
+
 
 class VolSrcEdge(Edge):
     def __init__(self, parent, base_name):
@@ -98,6 +119,18 @@ class VolSrcEdge(Edge):
 
     def config_param(self, vol):
         self._vol = vol
+
+    def get_equation(self, equs):
+        equ = Equation(length=equs.length)
+
+        index = equs.var_dict[self.start.variable]
+        equ.config_coeff(index, 1)
+
+        index = equs.var_dict[self.end.variable]
+        equ.config_coeff(index, -1)
+
+        equ.constant = self.vol
+        return equ
 
 
 class CurSrcEdge(Edge):
@@ -113,6 +146,15 @@ class CurSrcEdge(Edge):
     def config_param(self, cur):
         self._cur = cur
 
+    def get_equation(self, equs):
+        equ = Equation(length=equs.length)
+
+        index = equs.var_dict[self.variable]
+        equ.config_coeff(index, 1)
+
+        equ.constant = self.cur
+        return equ
+
 
 class WireEdge(Edge):
     def __init__(self, parent, base_name):
@@ -121,3 +163,15 @@ class WireEdge(Edge):
 
     def config_param(self):
         pass
+
+    def get_equation(self, equs):
+        equ = Equation(length=equs.length)
+
+        index = equs.var_dict[self.start.variable]
+        equ.config_coeff(index, 1)
+
+        index = equs.var_dict[self.end.variable]
+        equ.config_coeff(index, -1)
+
+        equ.constant = 0
+        return equ

@@ -7,8 +7,10 @@ from src.Freq import Freq
 from src.ParamType import CapacitanceType
 from src.ParamType import ResistanceType
 from src.ParamType import MultiFreqImpType
+
+from src.Equation.EquationGroup import EquationGroup
 # from src.Unit.BasicUnit import UnitGroup
-from src.Unit.UnitGroup import UnitGroup
+# from src.Unit.UnitGroup import UnitGroup
 import os
 import sys
 
@@ -33,13 +35,13 @@ if __name__ == '__main__':
     sg1 = SectionGroup(
         parent=None,
         bas_name='地面',
-        rlt_pos=30,
+        rlt_pos=0,
         m_nbr=1,
         m_freqs=[1700, 2300],
         m_lens=[650, 300],
         j_lens=[0, 0, 29],
         sec_type='2000A',
-        c_nbrs=[7, 0],
+        c_nbrs=[3, 0],
         sr_mode='左发',
         snd_lvl=1,
         cable_len=10,
@@ -83,23 +85,34 @@ if __name__ == '__main__':
     lg1 = LineGroup(parent=None, bas_name='test', lines=[l1])
 
     lg1.init_unit()
+    #
+    # ug1 = lg1.ele_units
+    # pos = ug1.pos_set
+    # names = ug1.name_list
+    #
+    # ug1.create_module()
+    # ug1.init_param(param_dict=pd)
+    # ug1.config_param(1700)
 
-    ug1 = lg1.ele_units
-    pos = ug1.pos_set
-    names = ug1.name_list
-
-    ug1.create_module()
-    ug1.init_param(param_dict=pd)
-    ug1.config_param(1700)
-
-    # l1.init_track()
     lg1.init_track_nodes()
     lg1.init_track()
+    lg1.create_module()
+    lg1.link_track()
 
-    tu = l1.track_units
-    tu.create_module()
-    tu.init_param(param_dict=pd)
-    tu.config_param(1700)
+    l1.get_all_modules()
+    l1.get_all_edges()
+    l1.get_all_nodes()
 
+    l1.init_param(param_dict=pd)
+    l1.config_param(1700)
+
+    # tu = l1.track_units
+    # tu.create_module()
+    # tu.init_param(param_dict=pd)
+    # tu.config_param(1700)
+    eg = EquationGroup()
+    var1 = l1.get_all_vars()
+    eg.get_var(var1)
+    bb = eg.get_equations()
 
     pass

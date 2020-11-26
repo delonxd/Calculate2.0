@@ -30,6 +30,13 @@ class EdgeSet(set):
             tmp.add(edge.end)
         return tmp
 
+    def get_all_var(self):
+        from src.CircuitConcept.Variable import VarSet
+        tmp = VarSet()
+        for obj in self:
+            tmp.add(obj.variable)
+        return tmp
+
     @property
     def name_list(self):
         names = self._name_list
