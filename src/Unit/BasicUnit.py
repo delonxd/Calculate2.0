@@ -64,9 +64,26 @@ class BasicUnit:
     def load_param(self):
         pass
 
-    @property
-    def bp_flg(self):
-        return None
+    def bp_flg(self, pos):
+        from src.TrackCircuitConcept.Section import Section
+
+        if isinstance(self.parent, Section):
+            if pos == self.parent.abs_pos:
+                return BP_Right
+
+        return BP_Left
+
+
+class BP_Left:
+    """
+        断点左侧
+    """
+
+
+class BP_Right:
+    """
+        断点右侧
+    """
 
 
 # class UnitGroup:
