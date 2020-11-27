@@ -31,7 +31,7 @@ class EdgeSet(set):
         return tmp
 
     def get_all_var(self):
-        from src.CircuitConcept.Variable import VarSet
+        from src.CircuitConcept.VariableGroup import VarSet
         tmp = VarSet()
         for obj in self:
             tmp.add(obj.variable)
@@ -45,6 +45,14 @@ class EdgeSet(set):
             names.append(edge.name)
         names.sort()
         return names
+
+    def get_connected_graph(self):
+        tmp = EdgeList(self)
+        return tmp.get_connected_graph()
+
+    def init_gnd(self):
+        tmp = EdgeList(self)
+        return tmp.init_gnd()
 
 
 class EdgeList(list):
@@ -84,3 +92,48 @@ class EdgeList(list):
             names.append(edge.name)
         names.sort()
         return names
+
+    def get_connected_graph(self):
+
+        from src.CircuitConcept.NodeGroup import NodeSet
+        tmp = list()
+
+        for edge in self:
+            f1 = -1
+            f2 = -1
+
+            counter = 0
+            for ele in tmp:
+                if edge.start in ele:
+                    f1 = counter
+                    break
+                counter += 1
+
+            counter = 0
+            for ele in tmp:
+                if edge.end in ele:
+                    f2 = counter
+                    break
+                counter += 1
+
+            if f1 < 0 and f2 < 0:
+                ele = NodeSet()
+                ele.add(edge.start)
+                ele.add(edge.end)
+                tmp.append(ele)
+            elif f1 < 0:
+                tmp[f2].add(edge.start)
+            elif f2 < 0:
+                tmp[f1].add(edge.end)
+            elif f1 == f2:
+                pass
+            else:
+                tmp[f1].update(tmp[f2])
+                tmp.pop(f2)
+
+        return tmp
+
+    def init_gnd(self):
+        tmp = self.get_connected_graph()
+        for obj in tmp:
+            obj.init_gnd()
