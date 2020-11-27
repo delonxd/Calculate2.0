@@ -147,7 +147,8 @@ class TcsrPower(BasicModule):
 
     def __init__(self, parent, bas_name, **kwargs):
         super().__init__(parent, bas_name)
-        self._param = [None] * 2
+        # self._param = [None] * 2
+        self._param = [180, None]
 
         self.u1 = VolSrcEdge(self, '1理想电压源')
         self.r1 = ImpedanceEdge(self, '2内阻')
@@ -190,7 +191,7 @@ class TcsrPower(BasicModule):
         self.config_port(Port(self.r1, False), Port(self.u1, False))
 
     def config_param(self, freq):
-        self.u1.config_param(0)
+        self.u1.config_param(self.u_pwr)
         self.r1.config_param(self.z_pwr[self.snd_lvl].z(freq))
 
 

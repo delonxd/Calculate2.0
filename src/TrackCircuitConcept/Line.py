@@ -109,7 +109,7 @@ class Line:
         return tmp
 
     def get_all_vars(self):
-        from src.CircuitConcept.Variable import VarSet
+        from src.CircuitConcept.VariableGroup import VarSet
         tmp = VarSet()
 
         tmp.update(self._all_nodes.get_all_var())

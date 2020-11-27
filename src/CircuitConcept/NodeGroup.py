@@ -33,8 +33,16 @@ class NodeSet(set):
         return names
 
     def get_all_var(self):
-        from src.CircuitConcept.Variable import VarSet
+        from src.CircuitConcept.VariableGroup import VarSet
         tmp = VarSet()
         for obj in self:
             tmp.add(obj.variable)
         return tmp
+
+    def init_gnd(self):
+        for index, obj in enumerate(self):
+            if index == 0:
+                obj.gnd_flg = True
+            else:
+
+                obj.gnd_flg = False

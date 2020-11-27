@@ -2,20 +2,19 @@
 from src.CircuitConcept.Variable import VoltageVar
 from src.Equation.Equation import Equation
 
+
 class Node:
     """
         节点
     """
 
     def __init__(self):
-        # self.edges = list()
-        from src.CircuitConcept.EdgeGroup import EdgeSet
 
+        from src.CircuitConcept.EdgeGroup import EdgeSet
         self.edges = EdgeSet()
-        # self.parent = None
-        # self.variable = Variable(self)
+
         self.variable = VoltageVar(self)
-        self.zero = False
+        self.gnd_flg = False
 
     @property
     def voltage(self):
@@ -34,17 +33,20 @@ class Node:
                 return edge.name + '_终点'
         return ''
 
-    def get_equation(self, equs):
-        equ = Equation(length=equs.length)
+    def get_equation(self):
+        equ = Equation()
 
-        for edge in self.edges:
-            if self is edge.start:
-                value = 1
-            else:
-                value = -1
+        if self.gnd_flg is True:
+            equ.append_coeff(self.variable, 1)
 
-            index = equs.var_dict[edge.variable]
-            equ.config_coeff(index, value)
+        else:
+            for edge in self.edges:
+                if self is edge.start:
+                    value = 1
+                else:
+                    value = -1
+
+                equ.append_coeff(edge.variable, value)
 
         return equ
 

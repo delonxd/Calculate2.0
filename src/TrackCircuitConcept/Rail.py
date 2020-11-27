@@ -71,7 +71,6 @@ class RailGroup:
                     rail.l_pos = new_r
                 elif new_l <= l_pos < r_pos <= new_r:
                     self.rails.discard(rail)
-            # new_rail.parant_line = self.parent_ins
             self.rails.add(new_rail)
 
     @property

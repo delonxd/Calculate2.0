@@ -16,3 +16,7 @@ class Port:
 
     def link_node(self, other):
         self.node.link_node(other)
+
+    @property
+    def voltage(self):
+        return self.node.voltage

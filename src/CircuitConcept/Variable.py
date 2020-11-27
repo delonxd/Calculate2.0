@@ -6,14 +6,26 @@ class Variable:
     def __init__(self, parent):
         self.parent = parent
         self._name = str()
+        self._value = None
 
-    def get_equation(self, equs):
-        print(self.name)
-        return self.parent.get_equation(equs)
+    def get_equation(self):
+        return self.parent.get_equation()
 
     @property
     def name(self):
         return
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, val):
+        self._value = val
+
+    @property
+    def value_abs(self):
+        return abs(self.value)
 
 
 class VoltageVar(Variable):
@@ -44,34 +56,3 @@ class CurrentVar(Variable):
         name = self.parent.name + '_电流'
         self._name = name
         return name
-
-
-class VarSet(set):
-    """
-        变量集合
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._name_list = list()
-
-    def add(self, obj):
-        if isinstance(obj, Variable):
-            super().add(obj)
-        else:
-            raise KeyboardInterrupt("%s应为Variable类型" % obj)
-
-    def update(self, obj):
-        if isinstance(obj, VarSet):
-            super().update(obj)
-        else:
-            raise KeyboardInterrupt("%s应为VarSet类型" % obj)
-
-    @property
-    def name_list(self):
-        names = self._name_list
-        names.clear()
-        for obj in self:
-            names.append(obj.name)
-        names.sort()
-        return names

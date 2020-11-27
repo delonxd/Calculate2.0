@@ -15,6 +15,10 @@ import os
 import sys
 
 
+def vol_abs(obj1, obj2):
+    return abs(obj1.voltage - obj2.voltage)
+
+
 if __name__ == '__main__':
     pd = Parameter.read_param_pkl()
     pd['Param_CapC'] = CapacitanceType(25e-6)
@@ -41,11 +45,11 @@ if __name__ == '__main__':
         m_lens=[650, 300],
         j_lens=[0, 0, 29],
         sec_type='2000A',
-        c_nbrs=[3, 0],
+        c_nbrs=[7, 0],
         sr_mode='左发',
         snd_lvl=1,
         cable_len=10,
-        tb_mode='双端TB',
+        tb_mode='无TB',
         # parameter=parameter,
     )
 
@@ -77,7 +81,7 @@ if __name__ == '__main__':
     l1 = Line(parent=None, bas_name='线路1')
 
     l1.add_element(sg1)
-    l1.add_element(t1)
+    # l1.add_element(t1)
 
     l2 = Line(parent=None, bas_name='线路2')
     l2.add_element(sg2)
@@ -112,7 +116,53 @@ if __name__ == '__main__':
     # tu.config_param(1700)
     eg = EquationGroup()
     var1 = l1.get_all_vars()
-    eg.get_var(var1)
-    bb = eg.get_equations()
+    l1._all_edges.init_gnd()
 
+    eg.get_var(var1)
+    eg.get_equations()
+    eg.create_matrix()
+    eg.solve_matrix()
+
+    md1 = sg1.sec_list[0].l_tcsr.module
+
+    vpp = vol_abs(md1.power.u1.start, md1.power.u1.end)
+
+    fs_v_power = vol_abs(md1.power.ports[0], md1.power.ports[1])
+
+    fs_v_fl_xfmr1 = vol_abs(md1.fl_xfmr.ports[0], md1.fl_xfmr.ports[1])
+    fs_v_fl_xfmr2 = vol_abs(md1.fl_xfmr.ports[2], md1.fl_xfmr.ports[3])
+
+    fs_v_cable1 = vol_abs(md1.cable.ports[0], md1.cable.ports[1])
+    fs_v_cable2 = vol_abs(md1.cable.ports[2], md1.cable.ports[3])
+
+    fs_v_tad_xfmr1 = vol_abs(md1.tad_xfmr.ports[0], md1.tad_xfmr.ports[1])
+    fs_v_tad_xfmr2 = vol_abs(md1.tad_xfmr.ports[2], md1.tad_xfmr.ports[3])
+
+    fs_v_ba = vol_abs(md1.ba.ports[0], md1.ba.ports[1])
+
+    fs_v_sva1 = vol_abs(md1.sva1.ports[0], md1.sva1.ports[1])
+
+    fs_v_ca1 = vol_abs(md1.ca.ports[0], md1.ca.ports[1])
+    fs_v_ca2 = vol_abs(md1.ca.ports[2], md1.ca.ports[3])
+
+
+    md1 = sg1.sec_list[0].r_tcsr.module
+
+    js_v_receiver = vol_abs(md1.receiver.ports[0], md1.receiver.ports[1])
+
+    js_v_fl_xfmr1 = vol_abs(md1.fl_xfmr.ports[0], md1.fl_xfmr.ports[1])
+    js_v_fl_xfmr2 = vol_abs(md1.fl_xfmr.ports[2], md1.fl_xfmr.ports[3])
+
+    js_v_cable1 = vol_abs(md1.cable.ports[0], md1.cable.ports[1])
+    js_v_cable2 = vol_abs(md1.cable.ports[2], md1.cable.ports[3])
+
+    js_v_tad_xfmr1 = vol_abs(md1.tad_xfmr.ports[0], md1.tad_xfmr.ports[1])
+    js_v_tad_xfmr2 = vol_abs(md1.tad_xfmr.ports[2], md1.tad_xfmr.ports[3])
+
+    js_v_ba = vol_abs(md1.ba.ports[0], md1.ba.ports[1])
+
+    js_v_sva1 = vol_abs(md1.sva1.ports[0], md1.sva1.ports[1])
+
+    js_v_ca1 = vol_abs(md1.ca.ports[0], md1.ca.ports[1])
+    js_v_ca2 = vol_abs(md1.ca.ports[2], md1.ca.ports[3])
     pass

@@ -70,6 +70,5 @@ class UnitSet(set):
 
     def config_param(self, freq):
         for unit in self:
-            print(unit.name)
             if unit.module:
                 unit.module.config_param(freq)
