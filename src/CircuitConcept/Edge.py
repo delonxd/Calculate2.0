@@ -84,10 +84,11 @@ class ImpedanceEdge(Edge):
 
 
 class WindingEdge(Edge):
-    def __init__(self, parent, base_name):
+    def __init__(self, parent, base_name, flg):
         super().__init__(parent, base_name)
         self._other = None
         self._n = None
+        self.equ_flg = flg
         # self.source = True
 
     @property
@@ -104,6 +105,23 @@ class WindingEdge(Edge):
 
     def get_equation(self, equs):
         equ = Equation(length=equs.length)
+
+        if self.equ_flg is True:
+            index = equs.var_dict[self.start.variable]
+            equ.config_coeff(index, 1)
+            index = equs.var_dict[self.end.variable]
+            equ.config_coeff(index, -1)
+            index = equs.var_dict[self._other.start.variable]
+            equ.config_coeff(index, -self._n)
+            index = equs.var_dict[self._other.end.variable]
+            equ.config_coeff(index, self._n)
+        else:
+            index = equs.var_dict[self.variable]
+            equ.config_coeff(index, -1)
+            index = equs.var_dict[self.end.variable]
+            equ.config_coeff(index, self._n)
+
+        equ.constant = 0
         return equ
 
 

@@ -124,8 +124,8 @@ class XfmrModule(BasicModule):
     def __init__(self, parent, bas_name, **kwargs):
         super().__init__(parent, bas_name)
         self._param = [None]
-        self.w1 = WindingEdge(self, '1原边')
-        self.w2 = WindingEdge(self, '2副边')
+        self.w1 = WindingEdge(self, '1原边', True)
+        self.w2 = WindingEdge(self, '2副边', False)
         self.add_element(self.w1, self.w2)
 
         self.create_circuit()
