@@ -131,8 +131,11 @@ class TcsrTADXfmr(BasicModule):
         self.c1.start.link_node(self.m1.ports[2])
 
     def create_port(self):
-        self.config_port(Port(self.l1, True), self.m1.ports[1],
-                         Port(self.c1, False), self.m1.ports[3])
+        # self.config_port(Port(self.l1, True), self.m1.ports[1],
+        #                  Port(self.c1, False), self.m1.ports[3])
+
+        self.config_port(self.l1.start, self.m1.ports[1].node,
+                         self.c1.end, self.m1.ports[3].node)
 
     def config_param(self, freq):
         self.l1.config_param(self.z3.z(freq))
@@ -188,7 +191,9 @@ class TcsrPower(BasicModule):
         self.u1.start.link_node(self.r1.start)
 
     def create_port(self):
-        self.config_port(Port(self.r1, False), Port(self.u1, False))
+        # self.config_port(Port(self.r1, False), Port(self.u1, False))
+
+        self.config_port(self.r1.end, self.u1.end)
 
     def config_param(self, freq):
         self.u1.config_param(self.u_pwr)
@@ -256,8 +261,11 @@ class TcsrCA(BasicModule):
         pass
 
     def create_port(self):
-        self.config_port(Port(self.r1, True), Port(self.wr1, True),
-                         Port(self.r1, False), Port(self.wr1, False))
+        # self.config_port(Port(self.r1, True), Port(self.wr1, True),
+        #                  Port(self.r1, False), Port(self.wr1, False))
+
+        self.config_port(self.r1.start, self.wr1.start,
+                         self.r1.end, self.wr1.end)
 
     def config_param(self, freq):
         self.r1.config_param(self.z.z(freq))

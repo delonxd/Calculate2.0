@@ -1,5 +1,5 @@
 from src.Module.BasicModule import BasicModule
-from src.CircuitConcept.Port import Port
+# from src.CircuitConcept.Port import Port
 from src.CircuitConcept.Edge import ImpedanceEdge
 from src.CircuitConcept.Edge import WindingEdge
 import numpy as np
@@ -34,7 +34,8 @@ class ImpedanceModule(BasicModule):
         pass
 
     def create_port(self):
-        self.config_port(Port(self.r1, True), Port(self.r1, False))
+        # self.config_port(Port(self.r1, True), Port(self.r1, False))
+        self.config_port(self.r1.start, self.r1.end)
 
     def config_param(self, freq):
         self.r1.config_param(self.z.z(freq))
@@ -96,8 +97,10 @@ class CableModule(BasicModule):
         self.r2.end.link_node(self.rp2.end)
 
     def create_port(self):
-        self.config_port(Port(self.r1, True), Port(self.r2, True),
-                         Port(self.r1, False), Port(self.r2, False))
+        # self.config_port(Port(self.r1, True), Port(self.r2, True),
+        #                  Port(self.r1, False), Port(self.r2, False))
+        self.config_port(self.r1.start, self.r2.start,
+                         self.r1.end, self.r2.end)
 
     def config_param(self, freq):
         length = float(self.length)
@@ -145,8 +148,11 @@ class XfmrModule(BasicModule):
         pass
 
     def create_port(self):
-        self.config_port(Port(self.w1, True), Port(self.w1, False),
-                         Port(self.w2, True), Port(self.w2, False))
+        # self.config_port(Port(self.w1, True), Port(self.w1, False),
+        #                  Port(self.w2, True), Port(self.w2, False))
+
+        self.config_port(self.w1.start, self.w1.end,
+                         self.w2.start, self.w2.end)
 
     def config_param(self, freq):
         self.w1.config_param(self.w2, self.n[freq])
@@ -206,11 +212,11 @@ class PiCircuitModule(BasicModule):
         self.r1.end.link_node(self.r3.end)
 
     def create_port(self):
-        # self.config_port(self.r1.ports[0], self.r2.ports[1],
-        #                  self.r3.ports[0], self.r3.ports[1])
+        # self.config_port(Port(self.r1, True), Port(self.r1, False),
+        #                  Port(self.r3, True), Port(self.r3, False))
 
-        self.config_port(Port(self.r1, True), Port(self.r1, False),
-                         Port(self.r3, True), Port(self.r3, False))
+        self.config_port(self.r1.start, self.r1.end,
+                         self.r3.start, self.r3.end)
 
     def config_param(self, freq):
         self.r1.config_param(self.z1.z(freq))
@@ -272,8 +278,11 @@ class TCircuitModule(BasicModule):
         self.r1.end.link_node(self.r3.start)
 
     def create_port(self):
-        self.config_port(Port(self.r1, True), Port(self.r2, False),
-                         Port(self.r3, False), Port(self.r2, False))
+        # self.config_port(Port(self.r1, True), Port(self.r2, False),
+        #                  Port(self.r3, False), Port(self.r2, False))
+
+        self.config_port(self.r1.start, self.r2.end,
+                         self.r3.end, self.r2.end)
 
     def config_param(self, freq):
         self.r1.config_param(self.z1.z(freq))

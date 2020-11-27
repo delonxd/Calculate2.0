@@ -184,3 +184,12 @@ class WireEdge(Edge):
 
         equ.constant = 0
         return equ
+
+
+class PortEdge(WireEdge):
+    """
+        端口连接线
+    """
+
+    def __init__(self, parent, base_name):
+        super().__init__(parent, base_name)

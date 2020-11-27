@@ -1,5 +1,6 @@
 from src.CircuitConcept.Port import Port
 from src.CircuitConcept.Edge import Edge
+from src.CircuitConcept.Node import Node
 
 
 class BasicModule:
@@ -65,10 +66,22 @@ class BasicModule:
         node_set = tmp.get_all_nodes()
         return node_set
 
-    def config_port(self, *ports):
-        for port in ports:
-            if isinstance(port, Port):
+    # def config_port(self, *ports):
+    #     for port in ports:
+    #         if isinstance(port, Port):
+    #             self.ports.append(port)
+    #             self.edges.append(port.edge)
+    #         else:
+    #             raise KeyboardInterrupt("类型异常：需要Port类型")
+
+    def config_port(self, *nodes):
+        for node in nodes:
+            if isinstance(node, Port):
+                node = node.node
+            if isinstance(node, Node):
+                port = Port(self, node)
                 self.ports.append(port)
+                self.edges.append(port.edge)
             else:
                 raise KeyboardInterrupt("类型异常：需要Port类型")
 
