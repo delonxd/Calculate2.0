@@ -26,7 +26,7 @@ class EquationGroup:
     def get_equations(self):
         self.equations.clear()
         for var in self.vars:
-            print(var.name)
+            # print(var.name)
             self.equations.append(var.get_equation())
             pass
         return self.equations

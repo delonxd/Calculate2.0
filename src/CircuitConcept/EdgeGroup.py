@@ -25,9 +25,9 @@ class EdgeSet(set):
     def get_all_nodes(self):
         from src.CircuitConcept.NodeGroup import NodeSet
         tmp = NodeSet()
-        for edge in self:
-            tmp.add(edge.start)
-            tmp.add(edge.end)
+        for obj in self:
+            tmp.add(obj.start)
+            tmp.add(obj.end)
         return tmp
 
     def get_all_var(self):
@@ -41,8 +41,8 @@ class EdgeSet(set):
     def name_list(self):
         names = self._name_list
         names.clear()
-        for edge in self:
-            names.append(edge.name)
+        for obj in self:
+            names.append(obj.name)
         names.sort()
         return names
 
@@ -79,17 +79,24 @@ class EdgeList(list):
     def get_all_nodes(self):
         from src.CircuitConcept.NodeGroup import NodeSet
         tmp = NodeSet()
-        for edge in self:
-            tmp.add(edge.start)
-            tmp.add(edge.end)
+        for obj in self:
+            tmp.add(obj.start)
+            tmp.add(obj.end)
+        return tmp
+
+    def get_all_var(self):
+        from src.CircuitConcept.VariableGroup import VarSet
+        tmp = VarSet()
+        for obj in self:
+            tmp.add(obj.variable)
         return tmp
 
     @property
     def name_list(self):
         names = self._name_list
         names.clear()
-        for edge in self:
-            names.append(edge.name)
+        for obj in self:
+            names.append(obj.name)
         names.sort()
         return names
 

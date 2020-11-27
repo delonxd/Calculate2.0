@@ -87,6 +87,10 @@ class Line:
     def track_units(self):
         return self._track_units
 
+    @property
+    def all_edges(self):
+        return self._all_edges
+
     def get_all_modules(self):
         tmp = self._all_modules
         tmp.clear()

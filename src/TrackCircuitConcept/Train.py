@@ -18,6 +18,12 @@ class Train:
         self.load_kwargs(**kwargs)
 
     @property
+    def r_short(self):
+        for unit in self.units:
+            return unit
+        return None
+
+    @property
     def rlt_pos(self):
         if self._rlt_pos is None:
             return 0

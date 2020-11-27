@@ -117,7 +117,7 @@ class WindingEdge(Edge):
             equ.append_coeff(self.other.end.variable, self.n)
         else:
             equ.append_coeff(self.variable, self.n)
-            equ.append_coeff(self.other.variable, -1)
+            equ.append_coeff(self.other.variable, 1)
 
         equ.constant = 0
         return equ
