@@ -45,15 +45,23 @@ class Edge:
         return self.variable.value
 
     @property
+    def current_abs(self):
+        return self.variable.value_abs
+
+    @property
     def voltage(self):
         voltage = self.start.voltage - self.end.voltage
         return voltage
+
+    @property
+    def voltage_abs(self):
+        return abs(self.voltage)
 
     def load_kwargs(self, **kwargs):
         if 'bas_name' in kwargs:
             self._bas_name = kwargs['bas_name']
 
-    def get_equation(self, equs):
+    def get_equation(self):
         pass
 
 
@@ -69,17 +77,13 @@ class ImpedanceEdge(Edge):
     def config_param(self, param):
         self._z = param
 
-    def get_equation(self, equs):
-        equ = Equation(length=equs.length)
+    def get_equation(self):
+        equ = Equation()
 
-        index = equs.var_dict[self.start.variable]
-        equ.config_coeff(index, 1)
+        equ.append_coeff(self.start.variable, -1)
+        equ.append_coeff(self.end.variable, 1)
+        equ.append_coeff(self.variable, self.z)
 
-        index = equs.var_dict[self.end.variable]
-        equ.config_coeff(index, -1)
-
-        index = equs.var_dict[self.variable]
-        equ.config_coeff(index, self.z)
         return equ
 
 
@@ -103,23 +107,17 @@ class WindingEdge(Edge):
         self._other = other
         self._n = n
 
-    def get_equation(self, equs):
-        equ = Equation(length=equs.length)
+    def get_equation(self):
+        equ = Equation()
 
         if self.equ_flg is True:
-            index = equs.var_dict[self.start.variable]
-            equ.config_coeff(index, 1)
-            index = equs.var_dict[self.end.variable]
-            equ.config_coeff(index, -1)
-            index = equs.var_dict[self._other.start.variable]
-            equ.config_coeff(index, -self._n)
-            index = equs.var_dict[self._other.end.variable]
-            equ.config_coeff(index, self._n)
+            equ.append_coeff(self.start.variable, 1)
+            equ.append_coeff(self.end.variable, -1)
+            equ.append_coeff(self.other.start.variable, -self.n)
+            equ.append_coeff(self.other.end.variable, self.n)
         else:
-            index = equs.var_dict[self.variable]
-            equ.config_coeff(index, -1)
-            index = equs.var_dict[self.end.variable]
-            equ.config_coeff(index, self._n)
+            equ.append_coeff(self.variable, self.n)
+            equ.append_coeff(self.other.variable, -1)
 
         equ.constant = 0
         return equ
@@ -138,14 +136,11 @@ class VolSrcEdge(Edge):
     def config_param(self, vol):
         self._vol = vol
 
-    def get_equation(self, equs):
-        equ = Equation(length=equs.length)
+    def get_equation(self):
+        equ = Equation()
 
-        index = equs.var_dict[self.start.variable]
-        equ.config_coeff(index, 1)
-
-        index = equs.var_dict[self.end.variable]
-        equ.config_coeff(index, -1)
+        equ.append_coeff(self.start.variable, 1)
+        equ.append_coeff(self.end.variable, -1)
 
         equ.constant = self.vol
         return equ
@@ -164,11 +159,10 @@ class CurSrcEdge(Edge):
     def config_param(self, cur):
         self._cur = cur
 
-    def get_equation(self, equs):
-        equ = Equation(length=equs.length)
+    def get_equation(self):
+        equ = Equation()
 
-        index = equs.var_dict[self.variable]
-        equ.config_coeff(index, 1)
+        equ.append_coeff(self.variable, 1)
 
         equ.constant = self.cur
         return equ
@@ -182,14 +176,11 @@ class WireEdge(Edge):
     def config_param(self):
         pass
 
-    def get_equation(self, equs):
-        equ = Equation(length=equs.length)
+    def get_equation(self):
+        equ = Equation()
 
-        index = equs.var_dict[self.start.variable]
-        equ.config_coeff(index, 1)
-
-        index = equs.var_dict[self.end.variable]
-        equ.config_coeff(index, -1)
+        equ.append_coeff(self.start.variable, 1)
+        equ.append_coeff(self.end.variable, -1)
 
         equ.constant = 0
         return equ
